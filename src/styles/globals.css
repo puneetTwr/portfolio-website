@@ -37,11 +37,27 @@ body {
   position: relative;
 }
 
-* {
-  cursor: default;
-}
 
 ::selection {
   background: var(--color-neon-cyan);
   color: var(--color-bg-primary);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+[data-hero] {
+  visibility: hidden;
+}
+
+@keyframes scrollLine {
+  0%, 100% { transform: scaleY(1); opacity: 0.4; }
+  50% { transform: scaleY(0.6); opacity: 0.8; }
+}
+
+@keyframes scrollChevron {
+  0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.4; }
+  50% { transform: rotate(45deg) translateY(4px); opacity: 0.8; }
 }

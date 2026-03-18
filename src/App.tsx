@@ -7,6 +7,7 @@ import Projects from './sections/Projects'
 import Skills from './sections/Skills'
 import About from './sections/About'
 import Contact from './sections/Contact'
+import { HeroScene } from './sections/Hero/HeroScene'
 
 function App() {
   return (
@@ -17,8 +18,10 @@ function App() {
         background: 'var(--color-bg-primary)',
       }}
     >
-      {/* Layer 1 — 3D canvas (fixed, behind everything). BaseScene + Starfield render inside CanvasWrapper. */}
-      <CanvasWrapper />
+      {/* Layer 1 — 3D canvas (fixed, behind everything). BaseScene renders internally, children append to it. */}
+      <CanvasWrapper>
+        <HeroScene />
+      </CanvasWrapper>
 
       {/* Layer 2 — HTML overlay (scrollable, sits on top) */}
       <Overlay>

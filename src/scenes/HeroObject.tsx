@@ -12,10 +12,17 @@ import { lerp } from '../utils'
  * Floats gently using Drei's Float component.
  * Includes drag-to-rotate interactions, hover scaling, and pulsing emissive.
  */
-export function HeroObject() {
+interface HeroObjectProps {
+  isInteractive: boolean
+  exitOpacity: number
+}
+
+export function HeroObject({ isInteractive, exitOpacity }: HeroObjectProps) {
   const groupRef = useRef<THREE.Group>(null)
   const outerRef = useRef<THREE.Mesh>(null)
   const innerRef = useRef<THREE.Mesh>(null)
+  const light1Ref = useRef<THREE.PointLight>(null)
+  const light2Ref = useRef<THREE.PointLight>(null)
 
   // Interaction State
   const { isDragging } = useHeroContext()
@@ -27,21 +34,22 @@ export function HeroObject() {
 
   // === Pointer Event Handlers ===
   const handlePointerDown = useCallback((e: ThreeEvent<PointerEvent>) => {
+    if (!isInteractive) return
     e.stopPropagation()
     isDragging.current = true
     previousPointer.current = { x: e.clientX, y: e.clientY }
     ;(e.target as Element).setPointerCapture(e.pointerId)
-  }, [])
+  }, [isInteractive])
 
   const handlePointerMove = useCallback((e: ThreeEvent<PointerEvent>) => {
-    if (!isDragging.current) return
+    if (!isInteractive || !isDragging.current) return
     const deltaX = e.clientX - previousPointer.current.x
     const deltaY = e.clientY - previousPointer.current.y
     const sensitivity = 0.005
     dragRotation.current.y += deltaX * sensitivity
     dragRotation.current.x += deltaY * sensitivity
     previousPointer.current = { x: e.clientX, y: e.clientY }
-  }, [])
+  }, [isInteractive])
 
   const handlePointerUp = useCallback((e: ThreeEvent<PointerEvent>) => {
     isDragging.current = false
@@ -53,8 +61,9 @@ export function HeroObject() {
   }, [])
 
   const handlePointerOver = useCallback(() => {
+    if (!isInteractive) return
     isHovered.current = true
-  }, [])
+  }, [isInteractive])
 
   const handlePointerOut = useCallback(() => {
     isHovered.current = false
@@ -107,11 +116,24 @@ export function HeroObject() {
       }
 
       // 2. Pulsing Glow (Breathing effect)
-      const material = outerRef.current.material as THREE.MeshStandardMaterial
-      material.emissiveIntensity = 0.8 + Math.sin(elapsed * 1.5) * 0.6
+      const outerMat = outerRef.current.material as THREE.MeshStandardMaterial
+      const innerMat = innerRef.current.material as THREE.MeshStandardMaterial
+      outerMat.emissiveIntensity = 0.8 + Math.sin(elapsed * 1.5) * 0.6
+
+      // Fade materials
+      outerMat.opacity = lerp(outerMat.opacity, exitOpacity * 0.9, 0.1)
+      innerMat.opacity = lerp(innerMat.opacity, exitOpacity * 0.15, 0.1)
+
+      // Fade lights
+      if (light1Ref.current && light2Ref.current) {
+        light1Ref.current.intensity = lerp(light1Ref.current.intensity, exitOpacity * 0.8, 0.1)
+        light2Ref.current.intensity = lerp(light2Ref.current.intensity, exitOpacity * 0.5, 0.1)
+      }
 
       // 3. Cursor Update Logic
-      if (isDragging.current) {
+      if (!isInteractive) {
+        document.body.style.cursor = 'default'
+      } else if (isDragging.current) {
         document.body.style.cursor = 'grabbing'
       } else if (isHovered.current) {
         document.body.style.cursor = 'grab'
@@ -134,8 +156,8 @@ export function HeroObject() {
       floatIntensity={0.8}
       floatingRange={[-0.15, 0.15]}
     >
-      <pointLight position={[2, 2, 2]} intensity={0.8} color={ACCENT_COLORS.cyan} distance={8} />
-      <pointLight position={[-2, -1, -2]} intensity={0.5} color={ACCENT_COLORS.purple} distance={8} />
+      <pointLight ref={light1Ref} position={[2, 2, 2]} intensity={0.8} color={ACCENT_COLORS.cyan} distance={8} />
+      <pointLight ref={light2Ref} position={[-2, -1, -2]} intensity={0.5} color={ACCENT_COLORS.purple} distance={8} />
 
       <group ref={groupRef}>
         {/* Invisible Interaction Hitbox */}

@@ -33,6 +33,8 @@ export interface Project {
   outcomes: string[]
   accentColor: string
   features?: ProjectFeature[]
+  icon: string | null
+  abbreviation: string
 }
 
 export interface Skill {

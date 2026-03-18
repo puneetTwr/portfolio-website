@@ -1,22 +1,31 @@
-const PLACEHOLDER_STYLE: React.CSSProperties = {
-  minHeight: '100vh',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  pointerEvents: 'auto',
-}
-
-const LABEL_STYLE: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)',
-  color: 'var(--color-text-secondary)',
-  fontSize: '14px',
-  letterSpacing: '0.1em',
-}
+import { useRef } from 'react'
+import { ProjectsHeading } from './ProjectsHeading'
+import { ProjectsGrid } from './ProjectsGrid'
+import { useProjectsAnimation } from './useProjectsAnimation'
 
 export default function Projects() {
+  const sectionRef = useRef<HTMLElement>(null)
+  useProjectsAnimation(sectionRef)
+
   return (
-    <div style={PLACEHOLDER_STYLE}>
-      <p style={LABEL_STYLE}>// projects section</p>
-    </div>
+    <section
+      ref={sectionRef}
+      id="projects"
+      style={{
+        position: 'relative',
+        width: '100%',
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '80px 10% 80px 10%',
+        pointerEvents: 'auto',
+      }}
+    >
+      <ProjectsHeading />
+      <div style={{ marginTop: '48px' }}>
+        <ProjectsGrid />
+      </div>
+    </section>
   )
 }

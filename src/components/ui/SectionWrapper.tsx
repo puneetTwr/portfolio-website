@@ -20,9 +20,11 @@ export function SectionWrapper({
     <div
       id={id}
       data-section={dataSection}
-      className={className}
+      className={className ? `section-full ${className}` : 'section-full'}
       style={{
-        minHeight: '100vh',
+        minHeight: 'max(100vh, 600px)',
+        height: 'auto',
+        width: '100%',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',

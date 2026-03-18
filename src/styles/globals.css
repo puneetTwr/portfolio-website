@@ -48,8 +48,20 @@ body {
   50% { opacity: 0; }
 }
 
-[data-hero] {
+[data-hero],
+[data-projects] {
   visibility: hidden;
+}
+
+@supports (min-height: 100dvh) {
+  .section-full {
+    min-height: max(100dvh, 600px);
+  }
+  .hero-full {
+    height: 100dvh;
+    max-height: 100dvh;
+    min-height: 600px;
+  }
 }
 
 @keyframes scrollLine {

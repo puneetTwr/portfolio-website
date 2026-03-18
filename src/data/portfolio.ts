@@ -73,6 +73,8 @@ const projects: Project[] = [
   {
     id: 'ngat',
     title: 'NGAT',
+    icon: null,
+    abbreviation: 'NG',
     subtitle: 'Roll On Dispatch Platform',
     role: 'Frontend Lead',
     duration: 'July 2023 – March 2026',
@@ -176,6 +178,8 @@ const projects: Project[] = [
   {
     id: 'sekady',
     title: 'Sekady',
+    icon: null,
+    abbreviation: 'SK',
     subtitle: 'Construction Finance Platform',
     role: 'Full-Stack Feature Developer',
     duration: 'July 2023 – December 2025',
@@ -210,6 +214,8 @@ const projects: Project[] = [
   {
     id: 'idla',
     title: 'IDLA',
+    icon: null,
+    abbreviation: 'ID',
     subtitle: 'Flutter Mobile App',
     role: 'Mobile UI Contributor',
     duration: '2023',

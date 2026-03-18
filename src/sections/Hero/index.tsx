@@ -1,9 +1,22 @@
-const Hero = () => {
-  return (
-    <section id="hero">
-      {/* Hero section placeholder */}
-    </section>
-  );
-};
+const PLACEHOLDER_STYLE: React.CSSProperties = {
+  minHeight: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  pointerEvents: 'auto',
+}
 
-export default Hero;
+const LABEL_STYLE: React.CSSProperties = {
+  fontFamily: 'var(--font-mono)',
+  color: 'var(--color-text-secondary)',
+  fontSize: '14px',
+  letterSpacing: '0.1em',
+}
+
+export default function Hero() {
+  return (
+    <div style={PLACEHOLDER_STYLE}>
+      <p style={LABEL_STYLE}>// hero section</p>
+    </div>
+  )
+}

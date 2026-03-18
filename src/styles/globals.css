@@ -9,14 +9,39 @@
   --color-text-primary: #ffffff;
   --color-text-secondary: #a0a0b0;
   --font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+  /* Z-index scale — never use arbitrary numbers outside this scale */
+  --z-canvas: 0;
+  --z-sections: 10;
+  --z-overlay: 20;
+  --z-nav: 30;
+  --z-modal: 40;
 }
 
 html,
 body {
+  width: 100%;
+  min-height: 100%;
   background-color: var(--color-bg-primary);
   color: var(--color-text-primary);
   overflow-x: hidden;
+  scroll-behavior: smooth;
   font-family: var(--font-mono);
   margin: 0;
   padding: 0;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  position: relative;
+}
+
+* {
+  cursor: default;
+}
+
+::selection {
+  background: var(--color-neon-cyan);
+  color: var(--color-bg-primary);
 }

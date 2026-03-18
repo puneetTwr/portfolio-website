@@ -2,6 +2,8 @@ import './styles/globals.css'
 import { CanvasWrapper } from './components/ui/CanvasWrapper'
 import { Overlay } from './components/ui/Overlay'
 import { SectionWrapper } from './components/ui/SectionWrapper'
+import { NavDots } from './components/ui/NavDots'
+import { ScrollProgressBar } from './components/ui/ScrollProgressBar'
 import Hero from './sections/Hero'
 import Projects from './sections/Projects'
 import Skills from './sections/Skills'
@@ -25,6 +27,8 @@ function App() {
 
       {/* Layer 2 — HTML overlay (scrollable, sits on top) */}
       <Overlay>
+        <ScrollProgressBar />
+        <NavDots />
         <SectionWrapper id="hero" data-section="hero">
           <Hero />
         </SectionWrapper>

@@ -86,3 +86,9 @@ export interface PortfolioData {
   metrics: Metric[]
   contact: ContactInfo
 }
+
+export interface Section {
+  id: string
+  label: string
+  index: number
+}

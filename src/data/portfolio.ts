@@ -34,6 +34,16 @@ const ACCENT_COLORS = {
 
 const PLACEHOLDER_IMAGE = '/images/profile-placeholder.jpg' as const
 
+export const SECTIONS = [
+  { id: 'hero',     label: 'Home',     index: 0 },
+  { id: 'projects', label: 'Projects', index: 1 },
+  { id: 'skills',   label: 'Skills',   index: 2 },
+  { id: 'about',    label: 'About',    index: 3 },
+  { id: 'contact',  label: 'Contact',  index: 4 },
+] as const
+
+export type SectionId = typeof SECTIONS[number]['id']
+
 // ─────────────────────────────────────────────
 // PERSONAL
 // ─────────────────────────────────────────────

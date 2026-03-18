@@ -1,5 +1,6 @@
 import { useRef, useCallback, useEffect } from 'react'
 import { type ThreeEvent, useFrame } from '@react-three/fiber'
+import { useHeroContext } from '../context/HeroContext'
 import { Float } from '@react-three/drei'
 import * as THREE from 'three'
 import { ACCENT_COLORS } from '../data/portfolio'
@@ -17,7 +18,7 @@ export function HeroObject() {
   const innerRef = useRef<THREE.Mesh>(null)
 
   // Interaction State
-  const isDragging = useRef(false)
+  const { isDragging } = useHeroContext()
   const previousPointer = useRef({ x: 0, y: 0 })
   const dragRotation = useRef({ x: 0, y: 0 })
   const dragVelocity = useRef({ x: 0, y: 0 })

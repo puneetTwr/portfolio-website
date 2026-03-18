@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 :root {
   --color-bg-primary: #050510;
@@ -10,7 +8,7 @@
   --color-neon-pink: #ff007f;
   --color-text-primary: #ffffff;
   --color-text-secondary: #a0a0b0;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
 }
 
 html,

@@ -1,45 +1,68 @@
-import { type CSSProperties, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
+import { portfolioData } from '../../data/portfolio'
+import { ProjectCard } from './ProjectCard'
+import { NGATCard } from './NGATCard'
 
 interface ProjectsGridProps {
   children?: ReactNode
 }
 
 export function ProjectsGrid({ children }: ProjectsGridProps) {
-  const placeholderStyle: CSSProperties = {
-    border: '0.5px dashed var(--color-text-secondary)',
-    borderRadius: '6px',
-    opacity: 0.3,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontFamily: 'var(--font-mono)',
-    fontSize: '12px',
-    letterSpacing: '0.1em',
-    color: 'var(--color-text-secondary)',
-  }
+  const { projects } = portfolioData
+
+  const mapProjectToProps = (project: typeof projects[0], featured: boolean) => ({
+    title: project.title,
+    subtitle: project.subtitle,
+    role: project.role,
+    duration: project.duration,
+    description: project.description,
+    techStack: project.techStack,
+    outcomes: project.outcomes,
+    highlights: project.highlights,
+    accentColor: project.accentColor,
+    icon: project.icon,
+    abbreviation: project.abbreviation,
+    projectType: project.projectType,
+    featured,
+  })
+
+  const ngatProject = projects[0]
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] md:gap-[24px]">
       <div
         data-projects="card-0"
-        className="md:row-start-1 md:row-end-3 md:col-start-1"
-        style={{ ...placeholderStyle, minHeight: '400px' }}
+        className="md:row-start-1 md:row-end-3 md:col-start-1 project-card-scroll"
+        style={{ overflow: 'hidden', overflowY: 'auto', maxHeight: '100%', borderRadius: '6px', alignSelf: 'start' }}
       >
-        NGAT PLACEHOLDER
+        <NGATCard
+          title={ngatProject.title}
+          subtitle={ngatProject.subtitle}
+          role={ngatProject.role}
+          duration={ngatProject.duration}
+          description={ngatProject.description}
+          techStack={ngatProject.techStack}
+          outcomes={ngatProject.outcomes}
+          accentColor={ngatProject.accentColor}
+          icon={ngatProject.icon}
+          abbreviation={ngatProject.abbreviation}
+          projectType={ngatProject.projectType}
+          features={ngatProject.features ?? []}
+        />
       </div>
       <div
         data-projects="card-1"
         className="md:row-start-1 md:col-start-2"
-        style={{ ...placeholderStyle, minHeight: '300px' }}
+        style={{ alignSelf: 'start' }}
       >
-        SEKADY PLACEHOLDER
+        <ProjectCard {...mapProjectToProps(projects[1], false)} />
       </div>
       <div
         data-projects="card-2"
         className="md:row-start-2 md:col-start-2"
-        style={{ ...placeholderStyle, minHeight: '300px' }}
+        style={{ alignSelf: 'start' }}
       >
-        IDLA PLACEHOLDER
+        <ProjectCard {...mapProjectToProps(projects[2], false)} />
       </div>
       {children}
     </div>

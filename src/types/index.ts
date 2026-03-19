@@ -35,6 +35,7 @@ export interface Project {
   features?: ProjectFeature[]
   icon: string | null
   abbreviation: string
+  projectType: 'professional' | 'personal'
 }
 
 export interface Skill {

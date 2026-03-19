@@ -99,3 +99,105 @@ Technical notes:
 - Convert 2D screen coords to 3D world coords via Three.js unproject()
 - Pause parallax and drag during travel animation to avoid conflicts
 - Handle window resize — recalculate target position on resize
+
+---
+
+## Project Type Distinction — Important Design Decision
+
+### Context
+The three projects currently in the portfolio (NGAT, Sekady, IDLA)
+are professional company projects built during employment at
+In Time Tec. They are not personal or open source projects.
+This distinction must be communicated to visitors in a subtle,
+professional manner — not hidden, not over-explained.
+
+### How to communicate this
+Each project card will carry a small subtle badge or label
+indicating the project type. Two types are planned:
+
+  Professional  — company projects built during employment
+  Personal      — side projects, open source, personal work (coming later)
+
+The badge should be:
+- Small and unobtrusive — not the first thing the eye goes to
+- Styled consistently with the existing neon aesthetic
+- Located in a consistent position on every card
+- Clear enough that a visitor immediately understands the context
+
+### Implementation in portfolio.ts
+The Project type in src/types/index.ts must include a
+projectType field:
+
+  projectType: 'professional' | 'personal'
+
+All three current projects are set to:
+  projectType: 'professional'
+
+Future personal projects will be set to:
+  projectType: 'personal'
+
+### Extensibility requirement
+The Projects section must be built to support multiple project
+categories without structural changes. Specifically:
+
+- The projects array in portfolio.ts can grow — adding new
+  projects requires only adding a new object to the array,
+  no component changes needed
+- The ProjectsGrid layout should handle more than 3 projects
+  gracefully — additional cards flow into the grid naturally
+- A future "Personal Projects" sub-section can be added
+  below the current "Professional" cards by filtering the
+  projects array by projectType
+- The NGAT featured card treatment (larger, spans rows) is
+  specific to NGAT only — all other professional projects
+  and all personal projects use the standard card size
+
+### Grid extensibility plan
+Current grid: 1 featured (NGAT) + 2 standard (Sekady, IDLA)
+Future grid:  1 featured (NGAT) + N standard cards in a
+              responsive grid that wraps automatically
+
+The grid should use CSS Grid with auto-fill so additional
+cards slot in without layout changes:
+  Professional section: featured card + auto-fill grid
+  Personal section: auto-fill grid (no featured card)
+
+### Resume link note
+The portfolio also needs a subtle note somewhere in the
+Projects section or About section stating:
+  "Available to discuss project details in interviews"
+This protects company confidentiality while signaling
+openness to conversation about the work.
+
+---
+
+## Project Type Communication Strategy — Finalized
+
+### Approach
+Two layers to communicate that current projects are company work:
+
+Layer 1 — Section subheading updated to:
+  "Production work delivered during professional engagements at In Time Tec"
+  Subtle, one line, no over-explanation
+
+Layer 2 — Small badge on each card:
+  Text: "Company Project"
+  Style: muted gray, small, does not compete with card accent color
+  Position: top right corner of every card
+
+### No GitHub link
+GitHub links are omitted entirely from all current project cards.
+No placeholder, no dead link, no explanation needed.
+The badge and header set the context sufficiently.
+
+### Card CTA
+Primary CTA on each card is "View Details" which expands
+the card to show full project information — not "View Code".
+
+### Extensibility
+- projects array in portfolio.ts can grow by adding new objects only
+- projectType field ('professional' | 'personal') filters cards
+- Future personal projects will have GitHub links and no company badge
+- Grid handles N cards via auto-fill — no layout changes needed
+- Personal projects section can be added below professional cards
+  by filtering portfolioData.projects by projectType

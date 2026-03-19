@@ -44,6 +44,13 @@ export const SECTIONS = [
 
 export type SectionId = typeof SECTIONS[number]['id']
 
+export const SECTION_SUBTITLES = {
+  projects: 'Production work delivered during professional engagements at In Time Tec',
+  skills: 'Technologies and tools used across production systems',
+  about: 'Background, approach, and professional philosophy',
+  contact: 'Open to new opportunities and collaborations',
+} as const
+
 // ─────────────────────────────────────────────
 // PERSONAL
 // ─────────────────────────────────────────────
@@ -75,6 +82,7 @@ const projects: Project[] = [
     title: 'NGAT',
     icon: null,
     abbreviation: 'NG',
+    projectType: 'professional',
     subtitle: 'Roll On Dispatch Platform',
     role: 'Frontend Lead',
     duration: 'July 2023 – March 2026',
@@ -180,6 +188,7 @@ const projects: Project[] = [
     title: 'Sekady',
     icon: null,
     abbreviation: 'SK',
+    projectType: 'professional',
     subtitle: 'Construction Finance Platform',
     role: 'Full-Stack Feature Developer',
     duration: 'July 2023 – December 2025',
@@ -216,6 +225,7 @@ const projects: Project[] = [
     title: 'IDLA',
     icon: null,
     abbreviation: 'ID',
+    projectType: 'professional',
     subtitle: 'Flutter Mobile App',
     role: 'Mobile UI Contributor',
     duration: '2023',

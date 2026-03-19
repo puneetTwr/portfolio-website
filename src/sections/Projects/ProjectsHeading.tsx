@@ -1,3 +1,5 @@
+import { SECTION_SUBTITLES } from '../../data/portfolio'
+
 export function ProjectsHeading() {
   return (
     <div>
@@ -52,8 +54,7 @@ export function ProjectsHeading() {
           marginTop: '16px',
         }}
       >
-        Production-grade applications built across logistics,
-        construction finance, and dispatch management.
+        {SECTION_SUBTITLES.projects}
       </p>
     </div>
   )

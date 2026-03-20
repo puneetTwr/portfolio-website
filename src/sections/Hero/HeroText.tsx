@@ -76,6 +76,7 @@ export function HeroText() {
 
       <h2
         data-hero="title"
+        className="neon-glow-cyan"
         style={{
           fontFamily: 'var(--font-mono)',
           fontSize: 'clamp(1rem, 2.5vw, 1.4rem)',
@@ -88,6 +89,7 @@ export function HeroText() {
       >
         {personal.title}
         <span
+          className="neon-glow-cyan"
           style={{
             display: 'inline-block',
             width: '2px',

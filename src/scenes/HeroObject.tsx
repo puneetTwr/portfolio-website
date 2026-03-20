@@ -5,6 +5,7 @@ import { Float } from '@react-three/drei'
 import * as THREE from 'three'
 import { ACCENT_COLORS } from '../data/portfolio'
 import { lerp } from '../utils'
+import { IcosahedronGlow } from './IcosahedronGlow'
 
 /**
  * HeroObject — the signature glowing icosahedron for the hero section.
@@ -118,11 +119,11 @@ export function HeroObject({ isInteractive, exitOpacity }: HeroObjectProps) {
       // 2. Pulsing Glow (Breathing effect)
       const outerMat = outerRef.current.material as THREE.MeshStandardMaterial
       const innerMat = innerRef.current.material as THREE.MeshStandardMaterial
-      outerMat.emissiveIntensity = 0.8 + Math.sin(elapsed * 1.5) * 0.6
+      outerMat.emissiveIntensity = 1.0 + Math.sin(elapsed * 1.5) * 0.5
 
       // Fade materials
       outerMat.opacity = lerp(outerMat.opacity, exitOpacity * 0.9, 0.1)
-      innerMat.opacity = lerp(innerMat.opacity, exitOpacity * 0.15, 0.1)
+      innerMat.opacity = lerp(innerMat.opacity, exitOpacity * 0.22, 0.1)
 
       // Fade lights
       if (light1Ref.current && light2Ref.current) {
@@ -156,6 +157,7 @@ export function HeroObject({ isInteractive, exitOpacity }: HeroObjectProps) {
       floatIntensity={0.8}
       floatingRange={[-0.15, 0.15]}
     >
+      <IcosahedronGlow exitOpacity={exitOpacity} />
       <pointLight ref={light1Ref} position={[2, 2, 2]} intensity={0.8} color={ACCENT_COLORS.cyan} distance={8} />
       <pointLight ref={light2Ref} position={[-2, -1, -2]} intensity={0.5} color={ACCENT_COLORS.purple} distance={8} />
 
@@ -192,9 +194,9 @@ export function HeroObject({ isInteractive, exitOpacity }: HeroObjectProps) {
           <meshStandardMaterial
             color={ACCENT_COLORS.purple}
             emissive={ACCENT_COLORS.purple}
-            emissiveIntensity={0.4}
+            emissiveIntensity={0.6}
             transparent={true}
-            opacity={0.15}
+            opacity={0.22}
             side={THREE.FrontSide}
           />
         </mesh>

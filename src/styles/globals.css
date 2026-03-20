@@ -213,4 +213,57 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .terminal-scan { animation: none; }
+  .terminal-scan { animation: none; }
+}
+
+/* ─────────────────────────────────────────────
+ * NEON GLOW UTILITIES (PHASE 10.2 PERFORMANCE)
+ * For HTML elements to simulate bloom without GPU shaders
+ * ───────────────────────────────────────────── */
+.neon-glow-cyan {
+  text-shadow:
+    0 0 6px rgba(0, 255, 255, 1),
+    0 0 12px rgba(0, 255, 255, 0.8),
+    0 0 24px rgba(0, 255, 255, 0.5),
+    0 0 48px rgba(0, 255, 255, 0.2);
+}
+
+.neon-glow-purple {
+  text-shadow:
+    0 0 6px rgba(139, 92, 246, 1),
+    0 0 12px rgba(139, 92, 246, 0.8),
+    0 0 24px rgba(139, 92, 246, 0.5),
+    0 0 48px rgba(139, 92, 246, 0.2);
+}
+
+.neon-glow-pink {
+  text-shadow:
+    0 0 6px rgba(255, 0, 127, 1),
+    0 0 12px rgba(255, 0, 127, 0.8),
+    0 0 24px rgba(255, 0, 127, 0.5),
+    0 0 48px rgba(255, 0, 127, 0.2);
+}
+
+.neon-box-cyan {
+  box-shadow:
+    0 0 6px rgba(0, 255, 255, 0.6),
+    0 0 16px rgba(0, 255, 255, 0.3),
+    0 0 32px rgba(0, 255, 255, 0.1),
+    inset 0 0 6px rgba(0, 255, 255, 0.08);
+}
+
+.neon-box-purple {
+  box-shadow:
+    0 0 6px rgba(139, 92, 246, 0.6),
+    0 0 16px rgba(139, 92, 246, 0.3),
+    0 0 32px rgba(139, 92, 246, 0.1),
+    inset 0 0 6px rgba(139, 92, 246, 0.08);
+}
+
+.neon-box-pink {
+  box-shadow:
+    0 0 6px rgba(255, 0, 127, 0.6),
+    0 0 16px rgba(255, 0, 127, 0.3),
+    0 0 32px rgba(255, 0, 127, 0.1),
+    inset 0 0 6px rgba(255, 0, 127, 0.08);
 }

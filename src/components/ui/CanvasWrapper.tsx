@@ -23,6 +23,7 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
         height: '100vh',
         zIndex: 'var(--z-canvas)' as unknown as number,
         pointerEvents: 'none',
+        filter: 'brightness(1.05) contrast(1.02)',
       }}
     >
       <Canvas
@@ -51,6 +52,21 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
           {children}
         </Suspense>
       </Canvas>
+
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: `radial-gradient(
+            ellipse at center,
+            transparent 50%,
+            rgba(2, 2, 16, 0.4) 80%,
+            rgba(2, 2, 16, 0.85) 100%
+          )`,
+          pointerEvents: 'none',
+          zIndex: 1,
+        }}
+      />
     </div>
   )
 }

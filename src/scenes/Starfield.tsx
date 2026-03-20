@@ -94,7 +94,7 @@ export function Starfield() {
           radius={100}
           depth={50}
           count={starCount}
-          factor={4}
+          factor={5}
           saturation={0.5}
           fade
           speed={isScrolling ? 0 : 0.3}
@@ -110,10 +110,10 @@ export function Starfield() {
           />
         </bufferGeometry>
         <pointsMaterial
-          size={0.05}
+          size={0.08}
           color="#00ffff"
           transparent
-          opacity={0.6}
+          opacity={0.75}
           sizeAttenuation
         />
       </points>

@@ -125,6 +125,7 @@ export function SkillNode({
       </div>
 
       <span
+        className={isHovered && level === 'primary' ? 'neon-glow-cyan' : ''}
         style={{
           fontFamily: 'var(--font-mono)',
           fontSize,
@@ -136,7 +137,7 @@ export function SkillNode({
           opacity: labelOpacity,
           lineHeight: 1,
           fontWeight: isHovered ? 500 : 400,
-          transition: 'color 0.2s ease, opacity 0.3s ease',
+          transition: 'color 0.2s ease, opacity 0.3s ease, text-shadow 0.3s ease',
         }}
       >
         {name}

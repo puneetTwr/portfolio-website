@@ -20,6 +20,7 @@ export function SkillsHeading() {
 
       <h2
         data-skills="heading-title"
+        className="neon-glow-purple"
         style={{
           fontFamily: 'var(--font-mono)',
           fontSize: 'clamp(2rem, 4vw, 3.5rem)',

@@ -201,3 +201,50 @@ the card to show full project information — not "View Code".
 - Grid handles N cards via auto-fill — no layout changes needed
 - Personal projects section can be added below professional cards
   by filtering portfolioData.projects by projectType
+
+---
+
+## Phase 6: Skills Section
+
+### Section Shell
+- **Feature**: Built `Skills/index.tsx` section root with proper `section` layout, 5% horizontal padding, and `pointerEvents: auto`.
+
+### SkillsHeading
+- **Feature**: Created `SkillsHeading.tsx` mirroring the Projects heading pattern — `// SKILLS` label in neon purple, `Technical Arsenal` h2, thin purple accent line, and subtitle from `SECTION_SUBTITLES.skills`.
+- **Animation**: GSAP `ScrollTrigger` drives a 4-step staggered entrance (label → title → line → subtitle) once the section crosses 70% of the viewport.
+
+### Constellation Layout Utility
+- **Utility**: `src/utils/constellation.ts` — seeded pseudo-random position generator (`Math.sin`-based) producing deterministic organic node placement every render.
+- **Zone system**: Primary nodes (React, TS, JS) confined to a 35–65% center zone; strong nodes in a 15–85% middle ring; familiar nodes in the full 5–95% area.
+- **Overlap prevention**: `isFarEnough` checks minimum 9% Euclidean distance between every placed node, with up to 50 placement attempts per node before fallback.
+- **Helpers**: `getNodeSize` (52/38/28px by level), `getNodeColor` (category → neon color), `SKILL_CONNECTIONS` (17 meaningful pairs), `getConnectionCoords` (percentage → SVG pixel coords).
+
+### SkillNode
+- **Feature**: `SkillNode.tsx` — absolutely positioned circle with border + tinted fill, primary-level inner filled dot and outer glow ring.
+- **Animation**: CSS `nodeFloat` keyframe — each node uses unique duration (3s–6.8s) and negative delay so every node is mid-float on load, guaranteeing no synchronization.
+- **Important**: Animation keyframe owns `translate(-50%, -50%)` — GSAP entrance was deliberately limited to `autoAlpha` only to avoid transform conflicts (see fix below).
+
+### SkillsConstellation
+- **Feature**: `SkillsConstellation.tsx` — 70vh relative container rendering all `SkillNode` elements and `SkillConnections` SVG layer.
+- **ResizeObserver**: Tracks real pixel dimensions so SVG line coordinates recalculate correctly on window resize.
+
+### SkillConnections
+- **Feature**: `SkillConnections.tsx` — SVG layer rendering `strokeDasharray` draw-on lines between related skill pairs. Lines use the from-node's category color at `strokeOpacity: 0.2`. 1.5s+stagger delay ensures lines draw after nodes appear.
+
+### useSkillsAnimation
+- **Animation**: GSAP `ScrollTrigger` for heading + `autoAlpha`-only stagger for nodes (center-outward, 1.2s total spread, `power2.out`).
+
+### SkillsLegend
+- **Feature**: Horizontal centered legend with 8px color dots for all 5 categories (Frontend/Backend/Testing/Mobile/Tools).
+
+---
+
+## Fixes
+
+### Skill Nodes Not Visible — Fix 1: CSS `visibility` Inheritance
+- **Root cause**: `SkillsConstellation`'s wrapper div had `data-skills="constellation"`. The global CSS `[data-skills] { visibility: hidden; }` hid that container, and `visibility: hidden` is inherited by all children. The `[data-skill-node]` elements inside were hidden by their parent, not by their own style.
+- **Fix**: Removed `data-skills` attribute from the constellation wrapper. The container is always visible; only the individual `[data-skill-node]` divs participate in GSAP's visibility animation.
+
+### Skill Nodes Not Visible — Fix 2: GSAP `scale` Overriding CSS `nodeFloat` Transform
+- **Root cause**: The GSAP entrance animation used `scale: 0 → 1`. GSAP writes `scale` as an inline `transform` property. Inline styles have higher cascade priority than CSS animations, so after GSAP finished, its inline `transform: matrix(1,0,0,1,0,0)` permanently overrode the CSS `nodeFloat` keyframe's `transform: translate(-50%, -50%) translateY(...)`. Nodes snapped out of position and stopped floating.
+- **Fix**: Removed `scale` from the GSAP `fromTo` entirely. GSAP now only animates `autoAlpha` (opacity + visibility). The CSS `nodeFloat` keyframe owns the `transform` property exclusively — no conflict.

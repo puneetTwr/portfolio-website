@@ -49,7 +49,12 @@ body {
 }
 
 [data-hero],
-[data-projects] {
+[data-projects],
+[data-skills] {
+  visibility: hidden;
+}
+
+[data-skill-node] {
   visibility: hidden;
 }
 
@@ -100,3 +105,35 @@ body {
   0%, 100% { opacity: 1; transform: scale(1); }
   50% { opacity: 0.5; transform: scale(0.85); }
 }
+
+@keyframes nodeFloat {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0px);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-8px);
+  }
+}
+
+@keyframes nodePulse {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes drawLine {
+  to { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-skill-node] {
+    animation: none !important;
+  }
+  [data-skill-node] * {
+    animation: none !important;
+  }
+  line[data-connection] {
+    animation-duration: 0.01s !important;
+    animation-delay: 0s !important;
+  }
+}
+

@@ -421,8 +421,12 @@ All prompts completed and verified.
 - Preloaded `Jetbrains Mono` inside `index.html` to eliminate cumulative layout shifts
 - Ensured touch zoom out does not affect default `ContactForm` on iOS Safari
 
+## Phase 11.1 — Nav Dot Tracking Bug Fix — COMPLETE
+- **Root Cause:** Due to Phase 10 introducing React.lazy and Suspense for all content sections, `useActiveSection` was initializing its `IntersectionObserver` before the lower sections existed in the DOM. Consequently, `document.getElementById()` for `projects`, `skills`, etc. returned null and they were never observed, locking the active dot to `hero`.
+- **Fix Applied:** (Likely Fix A) Added a `MutationObserver` to `useActiveSection` which watches `document.body` for `childList` and `subtree` changes. When the `Suspense` boundary resolves and mounts the lazy-loaded sections, the mutation callback fires and registers the new elements with the `IntersectionObserver`, ensuring all sections are correctly tracked.
+
 **REMAINING:**
-- Phase 11 — Icosahedron nav companion
+- Phase 11.2 — Icosahedron nav companion
 - Phase 12 — Final content and deployment
 
 ---

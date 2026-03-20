@@ -16,6 +16,8 @@ export function useActiveSection(): {
   const ratios = useRef<Record<string, number>>({})
 
   useEffect(() => {
+    const observedIds = new Set<string>()
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -37,12 +39,25 @@ export function useActiveSection(): {
       }
     )
 
-    SECTIONS.forEach(({ id }) => {
-      const element = document.getElementById(id)
-      if (element) observer.observe(element)
-    })
+    const observeSections = () => {
+      SECTIONS.forEach(({ id }) => {
+        const element = document.getElementById(id)
+        if (element && !observedIds.has(id)) {
+          observer.observe(element)
+          observedIds.add(id)
+        }
+      })
+    }
 
-    return () => observer.disconnect()
+    observeSections()
+
+    const mutationObserver = new MutationObserver(observeSections)
+    mutationObserver.observe(document.body, { childList: true, subtree: true })
+
+    return () => {
+      observer.disconnect()
+      mutationObserver.disconnect()
+    }
   }, [])
 
   return { activeSection, activeSectionIndex }

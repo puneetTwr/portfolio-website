@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { SECTIONS, type SectionId } from '../../data/portfolio'
-import { useActiveSection, useScrollToSection } from '../../hooks'
+import { useActiveSection, useScrollToSection, useDeviceCapability } from '../../hooks'
 
 interface NavLabelProps {
   section: typeof SECTIONS[number]
@@ -38,14 +38,15 @@ function NavLabel({ section, isVisible }: NavLabelProps) {
 interface NavDotProps {
   section: typeof SECTIONS[number]
   isActive: boolean
+  isMobile: boolean
 }
 
-function NavDot({ isActive }: NavDotProps) {
+function NavDot({ isActive, isMobile }: NavDotProps) {
   return (
     <div
       style={{
-        width: isActive ? '10px' : '6px',
-        height: isActive ? '10px' : '6px',
+        width: isActive ? (isMobile ? '8px' : '10px') : '6px',
+        height: isActive ? (isMobile ? '8px' : '10px') : '6px',
         borderRadius: '50%',
         background: isActive
           ? 'var(--color-neon-cyan)'
@@ -66,6 +67,7 @@ function NavDot({ isActive }: NavDotProps) {
 export function NavDots() {
   const { activeSection } = useActiveSection()
   const scrollToSection = useScrollToSection()
+  const { isMobile } = useDeviceCapability()
   const [hoveredSection, setHoveredSection] = useState<SectionId | null>(null)
   const navRef = useRef<HTMLDivElement>(null)
 
@@ -92,7 +94,7 @@ export function NavDots() {
       ref={navRef}
       style={{
         position: 'fixed',
-        right: '24px',
+        right: isMobile ? '12px' : '24px',
         top: '50%',
         transform: 'translateY(-50%)',
         display: 'flex',
@@ -140,7 +142,7 @@ export function NavDots() {
           }}
         >
           <NavLabel section={section} isVisible={hoveredSection === section.id} />
-          <NavDot section={section} isActive={activeSection === section.id} />
+          <NavDot section={section} isActive={activeSection === section.id} isMobile={isMobile} />
         </div>
       ))}
     </div>

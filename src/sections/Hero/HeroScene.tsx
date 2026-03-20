@@ -4,11 +4,15 @@ import * as THREE from 'three'
 import { HeroObject } from '../../scenes/HeroObject'
 import { useHeroParallax } from '../../hooks/useHeroParallax'
 import { useHeroVisibility } from '../../hooks/useHeroVisibility'
-import { useHeroLayout } from '../../hooks'
+import { useHeroLayout, useDeviceCapability } from '../../hooks'
 import { HeroProvider, useHeroContext } from '../../context/HeroContext'
 import { lerp } from '../../utils'
 
-function HeroSceneContent() {
+interface HeroSceneProps {
+  isMobile?: boolean
+}
+
+function HeroSceneContent({ isMobile }: HeroSceneProps) {
   const groupRef = useRef<THREE.Group>(null)
   const { offsetX, offsetY } = useHeroParallax()
   const { isDragging } = useHeroContext()
@@ -55,7 +59,7 @@ function HeroSceneContent() {
 
   return (
     <group ref={groupRef} position={objectPosition}>
-      <HeroObject isInteractive={visibility > 0.5} exitOpacity={visibility} />
+      <HeroObject isInteractive={visibility > 0.5} exitOpacity={visibility} isMobile={isMobile} />
     </group>
   )
 }
@@ -66,9 +70,10 @@ function HeroSceneContent() {
  * offset to leave room for the text overlay.
  */
 export function HeroScene() {
+  const { isMobile } = useDeviceCapability()
   return (
     <HeroProvider>
-      <HeroSceneContent />
+      <HeroSceneContent isMobile={isMobile} />
     </HeroProvider>
   )
 }

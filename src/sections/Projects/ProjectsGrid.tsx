@@ -3,6 +3,7 @@ import { portfolioData } from '../../data/portfolio'
 import { ProjectCard } from './ProjectCard'
 import { NGATCard } from './NGATCard'
 import type { Project } from '../../types'
+import { useDeviceCapability } from '../../hooks'
 
 interface ProjectsGridProps {
   children?: ReactNode
@@ -11,6 +12,7 @@ interface ProjectsGridProps {
 
 export function ProjectsGrid({ children, onProjectClick }: ProjectsGridProps) {
   const { projects } = portfolioData
+  const { isMobile } = useDeviceCapability()
 
   const mapProjectToProps = (project: typeof projects[0], featured: boolean) => ({
     title: project.title,
@@ -34,8 +36,8 @@ export function ProjectsGrid({ children, onProjectClick }: ProjectsGridProps) {
     <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] md:gap-[24px]">
       <div
         data-projects="card-0"
-        className="md:row-start-1 md:row-end-3 md:col-start-1 project-card-scroll"
-        style={{ overflow: 'hidden', overflowY: 'auto', maxHeight: '100%', borderRadius: '6px', alignSelf: 'start' }}
+        className="project-card-scroll"
+        style={{ overflow: 'hidden', overflowY: 'auto', maxHeight: '100%', borderRadius: '6px', alignSelf: 'start', gridRow: isMobile ? 'auto' : '1/3', gridColumn: isMobile ? 'auto' : '1' }}
       >
         <NGATCard
           title={ngatProject.title}

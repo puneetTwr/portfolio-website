@@ -5,6 +5,7 @@ import { ProjectIcon } from '../../sections/Projects/ProjectIcon'
 import { CompanyBadge } from '../../sections/Projects/CompanyBadge'
 import { TechBadge } from '../../sections/Projects/TechBadge'
 import { FeaturePanel } from '../../sections/Projects/FeaturePanel'
+import { useDeviceCapability } from '../../hooks'
 import type { Project, ProjectFeature } from '../../types'
 
 // We pass the full Project object here because the modal
@@ -20,6 +21,7 @@ interface ProjectModalProps {
 }
 
 export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
+  const { isMobile } = useDeviceCapability()
   const [isVisible, setIsVisible] = useState(false)
   const [shouldRender, setShouldRender] = useState(false)
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null)
@@ -66,7 +68,7 @@ export function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
           style={{
             width: '100%',
             maxWidth: '760px',
-            maxHeight: 'calc(100vh - 40px)',
+            maxHeight: isMobile ? '92vh' : 'calc(100vh - 40px)',
             background: 'var(--color-bg-secondary)',
             border: `0.5px solid ${project.accentColor}60`,
             borderRadius: '12px',

@@ -4,7 +4,11 @@ import { lerp } from '../utils'
 import * as THREE from 'three'
 import { useEffect, useRef } from 'react'
 
-export function CameraController() {
+interface CameraControllerProps {
+  enableShake?: boolean
+}
+
+export function CameraController({ enableShake = true }: CameraControllerProps) {
   const { camera, scene } = useThree()
   const getCameraTargets = useCameraScroll()
   const { shakeOffset } = useSectionBoundaryShake()
@@ -29,9 +33,15 @@ export function CameraController() {
     } = getCameraTargets()
 
     // Camera position lerp with shake additive
-    camera.position.x = lerp(camera.position.x, targetPosition.x + shakeOffset.x, 0.05)
-    camera.position.y = lerp(camera.position.y, targetPosition.y + shakeOffset.y, 0.05)
-    camera.position.z = lerp(camera.position.z, targetPosition.z + shakeOffset.z, 0.05)
+    if (enableShake) {
+      camera.position.x = lerp(camera.position.x, targetPosition.x + shakeOffset.x, 0.05)
+      camera.position.y = lerp(camera.position.y, targetPosition.y + shakeOffset.y, 0.05)
+      camera.position.z = lerp(camera.position.z, targetPosition.z + shakeOffset.z, 0.05)
+    } else {
+      camera.position.x = lerp(camera.position.x, targetPosition.x, 0.05)
+      camera.position.y = lerp(camera.position.y, targetPosition.y, 0.05)
+      camera.position.z = lerp(camera.position.z, targetPosition.z, 0.05)
+    }
 
     // Camera rotation lerp
     camera.rotation.x = lerp(camera.rotation.x, targetRotation.x, 0.05)

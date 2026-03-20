@@ -34,7 +34,7 @@ function inputStyle(hasError: boolean): React.CSSProperties {
     borderRadius: '2px',
     padding: '12px 16px',
     fontFamily: 'var(--font-mono)',
-    fontSize: '13px',
+    fontSize: '16px',
     color: 'var(--color-text-primary)',
     outline: 'none',
     transition: 'border-color 0.2s ease, background 0.2s ease',

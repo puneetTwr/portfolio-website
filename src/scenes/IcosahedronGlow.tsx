@@ -5,9 +5,10 @@ import { createGlowTexture } from '../utils/glowTexture'
 
 interface IcosahedronGlowProps {
   exitOpacity: number
+  enabled?: boolean
 }
 
-export function IcosahedronGlow({ exitOpacity }: IcosahedronGlowProps) {
+export function IcosahedronGlow({ exitOpacity, enabled = true }: IcosahedronGlowProps) {
   // Create the glow textures once
   const glowTexture = useMemo(() => createGlowTexture('#00ffff', 256), [])
   const purpleGlowTexture = useMemo(() => createGlowTexture('#8b5cf6', 256), [])
@@ -27,6 +28,8 @@ export function IcosahedronGlow({ exitOpacity }: IcosahedronGlowProps) {
       purpleGlowRef.current.opacity = pulse * 0.15 * exitOpacity
     }
   })
+
+  if (!enabled) return null
 
   // Sprites in Three.js always face the camera automatically
   return (

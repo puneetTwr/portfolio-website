@@ -407,8 +407,21 @@ All prompts completed and verified.
 - Phase 8 — Contact section
 - Phase 9 — Scroll camera animation
 
+## Phase 10 — Post-processing and Polish — COMPLETE
+
+All prompts completed and verified.
+
+### Core Changes
+- Built `useDeviceCapability` hook for detecting hardware scaling limits (pixel ratio, core count)
+- Fully disabled expensive R3F `PostProcessing` array (bloom, aberration, vignette)
+- Ported bloom effects entirely to CSS drop-shadows and box-shadows via global utility classes
+- Added concentric floating mesh layers to `HeroObject` with transparent textures mimicking zero-cost volumetric bloom
+- Passed `enableShake` down into `CameraController` and `isLowEnd` to `IcosahedronGlow` to respect hardware degradation rules
+- Suspended all sections beneath the fold to guarantee First Contentful Paint arrives smoothly on all devices
+- Preloaded `Jetbrains Mono` inside `index.html` to eliminate cumulative layout shifts
+- Ensured touch zoom out does not affect default `ContactForm` on iOS Safari
+
 **REMAINING:**
-- Phase 10 — Post-processing and polish
 - Phase 11 — Icosahedron nav companion
 - Phase 12 — Final content and deployment
 

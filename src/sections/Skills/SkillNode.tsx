@@ -1,4 +1,5 @@
 import { getNodeSize, getNodeColor } from '../../utils/constellation'
+import { useDeviceCapability } from '../../hooks'
 
 interface SkillNodeProps {
   name: string
@@ -25,6 +26,7 @@ export function SkillNode({
   onMouseEnter,
   onMouseLeave,
 }: SkillNodeProps) {
+  const { isMobile } = useDeviceCapability()
   const size = getNodeSize(level)
   const color = getNodeColor(category)
   const dotSize = size * 0.2
@@ -42,6 +44,7 @@ export function SkillNode({
     level === 'primary' ? color : 'var(--color-text-secondary)'
 
   const labelOpacity =
+    isMobile ? 0.8 :
     isDimmed ? 0.15 :
     isHovered ? 1 :
     level === 'primary' ? 1 :
@@ -144,7 +147,7 @@ export function SkillNode({
       </span>
 
       {/* Tooltip — separate child so transform: translateX(-50%) is safe here */}
-      {isHovered && (
+      {(isHovered || (isMobile && level === 'primary')) && (
         <div
           style={{
             position: 'absolute',

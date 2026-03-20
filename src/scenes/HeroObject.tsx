@@ -6,6 +6,7 @@ import * as THREE from 'three'
 import { ACCENT_COLORS } from '../data/portfolio'
 import { lerp } from '../utils'
 import { IcosahedronGlow } from './IcosahedronGlow'
+import { useDeviceCapability } from '../hooks'
 
 /**
  * HeroObject — the signature glowing icosahedron for the hero section.
@@ -16,9 +17,11 @@ import { IcosahedronGlow } from './IcosahedronGlow'
 interface HeroObjectProps {
   isInteractive: boolean
   exitOpacity: number
+  isMobile?: boolean
 }
 
-export function HeroObject({ isInteractive, exitOpacity }: HeroObjectProps) {
+export function HeroObject({ isInteractive, exitOpacity, isMobile = false }: HeroObjectProps) {
+  const { isLowEnd } = useDeviceCapability()
   const groupRef = useRef<THREE.Group>(null)
   const outerRef = useRef<THREE.Mesh>(null)
   const innerRef = useRef<THREE.Mesh>(null)
@@ -153,11 +156,11 @@ export function HeroObject({ isInteractive, exitOpacity }: HeroObjectProps) {
   return (
     <Float
       speed={1.5}
-      rotationIntensity={0.2}
-      floatIntensity={0.8}
+      rotationIntensity={isMobile ? 0.1 : 0.2}
+      floatIntensity={isMobile ? 0.3 : 0.8}
       floatingRange={[-0.15, 0.15]}
     >
-      <IcosahedronGlow exitOpacity={exitOpacity} />
+      <IcosahedronGlow exitOpacity={exitOpacity} enabled={!isLowEnd} />
       <pointLight ref={light1Ref} position={[2, 2, 2]} intensity={0.8} color={ACCENT_COLORS.cyan} distance={8} />
       <pointLight ref={light2Ref} position={[-2, -1, -2]} intensity={0.5} color={ACCENT_COLORS.purple} distance={8} />
 

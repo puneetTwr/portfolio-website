@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { BaseScene, CameraController } from '../../scenes'
+import { useDeviceCapability } from '../../hooks'
 
 interface CanvasWrapperProps {
   children?: React.ReactNode
@@ -13,6 +14,8 @@ interface CanvasWrapperProps {
  * children as needed for 3D interaction.
  */
 export function CanvasWrapper({ children }: CanvasWrapperProps) {
+  const { pixelRatio, isLowEnd } = useDeviceCapability()
+
   return (
     <div
       style={{
@@ -27,6 +30,8 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
       }}
     >
       <Canvas
+        dpr={[1, pixelRatio]}
+        performance={{ min: 0.5 }}
         camera={{
           fov: 75,
           near: 0.1,
@@ -47,7 +52,7 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
         }}
       >
         <Suspense fallback={null}>
-          <CameraController />
+          <CameraController enableShake={!isLowEnd} />
           <BaseScene />
           {children}
         </Suspense>

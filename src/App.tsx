@@ -1,15 +1,17 @@
+import { lazy, Suspense } from 'react'
 import './styles/globals.css'
 import { CanvasWrapper } from './components/ui/CanvasWrapper'
 import { Overlay } from './components/ui/Overlay'
 import { SectionWrapper } from './components/ui/SectionWrapper'
 import { NavDots } from './components/ui/NavDots'
 import { ScrollProgressBar } from './components/ui/ScrollProgressBar'
-import Hero from './sections/Hero'
-import Projects from './sections/Projects'
-import Skills from './sections/Skills'
-import About from './sections/About'
-import Contact from './sections/Contact'
 import { HeroScene } from './sections/Hero/HeroScene'
+
+const Hero = lazy(() => import('./sections/Hero'))
+const Projects = lazy(() => import('./sections/Projects'))
+const Skills = lazy(() => import('./sections/Skills'))
+const About = lazy(() => import('./sections/About'))
+const Contact = lazy(() => import('./sections/Contact'))
 
 function App() {
   return (
@@ -29,25 +31,27 @@ function App() {
       <Overlay>
         <ScrollProgressBar />
         <NavDots />
-        <SectionWrapper id="hero" data-section="hero">
-          <Hero />
-        </SectionWrapper>
+        <Suspense fallback={null}>
+          <SectionWrapper id="hero" data-section="hero">
+            <Hero />
+          </SectionWrapper>
 
-        <SectionWrapper id="projects" data-section="projects">
-          <Projects />
-        </SectionWrapper>
+          <SectionWrapper id="projects" data-section="projects">
+            <Projects />
+          </SectionWrapper>
 
-        <SectionWrapper id="skills" data-section="skills">
-          <Skills />
-        </SectionWrapper>
+          <SectionWrapper id="skills" data-section="skills">
+            <Skills />
+          </SectionWrapper>
 
-        <SectionWrapper id="about" data-section="about">
-          <About />
-        </SectionWrapper>
+          <SectionWrapper id="about" data-section="about">
+            <About />
+          </SectionWrapper>
 
-        <SectionWrapper id="contact" data-section="contact">
-          <Contact />
-        </SectionWrapper>
+          <SectionWrapper id="contact" data-section="contact">
+            <Contact />
+          </SectionWrapper>
+        </Suspense>
       </Overlay>
     </div>
   )

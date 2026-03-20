@@ -38,6 +38,7 @@ const MOBILE_LAYOUT: HeroLayoutConfig = {
 }
 
 const getLayout = (width: number): HeroLayoutConfig => {
+  if (width < 375) return { ...MOBILE_LAYOUT, objectScale: 0.5 }
   if (width < BREAKPOINT_MOBILE) return MOBILE_LAYOUT
   if (width < BREAKPOINT_MEDIUM) return MEDIUM_LAYOUT
   return LARGE_LAYOUT

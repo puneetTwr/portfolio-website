@@ -3,6 +3,7 @@ import { Stars } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 import { Group, Points, Mesh, BackSide } from 'three'
 import { useParallax } from '../hooks/useParallax'
+import { useDeviceCapability } from '../hooks'
 
 /**
  * Starfield — multi-layered animated space background with scroll parallax.
@@ -25,10 +26,10 @@ export function Starfield() {
   // Direction of parallax: -1 moves stars UP when scrolling down (normal). 1 moves them DOWN.
   const scrollDirection = 1
 
-  // Performance guard — reduce geometry on mobile
-  const isMobile = window.innerWidth < 768
-  const particleCount = isMobile ? 80 : 200
-  const starCount = isMobile ? 2000 : 5000
+  // Performance guard — reduce geometry on low-end
+  const { recommendedParticleCount, recommendedStarCount } = useDeviceCapability()
+  const particleCount = recommendedParticleCount
+  const starCount = recommendedStarCount
 
   // Pause Drei Stars internal drift while the user is actively scrolling
   const [isScrolling, setIsScrolling] = useState(false)

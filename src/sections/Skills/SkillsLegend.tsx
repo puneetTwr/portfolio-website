@@ -1,12 +1,16 @@
 const CATEGORIES = [
-  { label: 'Frontend', color: '#00ffff' },
-  { label: 'Backend',  color: '#1D9E75' },
-  { label: 'Testing',  color: '#8b5cf6' },
-  { label: 'Mobile',   color: '#ff007f' },
-  { label: 'Tools',    color: '#888780' },
+  { label: 'Frontend', key: 'frontend', color: '#00ffff' },
+  { label: 'Backend',  key: 'backend',  color: '#1D9E75' },
+  { label: 'Testing',  key: 'testing',  color: '#8b5cf6' },
+  { label: 'Mobile',   key: 'mobile',   color: '#ff007f' },
+  { label: 'Tools',    key: 'tools',    color: '#888780' },
 ]
 
-export function SkillsLegend() {
+interface SkillsLegendProps {
+  activeCategory?: string | null
+}
+
+export function SkillsLegend({ activeCategory }: SkillsLegendProps) {
   return (
     <div
       style={{
@@ -17,37 +21,47 @@ export function SkillsLegend() {
         flexWrap: 'wrap',
       }}
     >
-      {CATEGORIES.map(({ label, color }) => (
-        <div
-          key={label}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-          }}
-        >
+      {CATEGORIES.map(({ label, key, color }) => {
+        const isActive = activeCategory === key
+        const isDimmed = activeCategory !== null && activeCategory !== undefined && !isActive
+
+        return (
           <div
+            key={label}
             style={{
-              width: '8px',
-              height: '8px',
-              borderRadius: '50%',
-              background: color,
-              flexShrink: 0,
-            }}
-          />
-          <span
-            style={{
-              fontFamily: 'var(--font-mono)',
-              fontSize: '10px',
-              color: 'var(--color-text-secondary)',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              opacity: isDimmed ? 0.3 : 1,
+              transition: 'opacity 0.3s ease',
             }}
           >
-            {label}
-          </span>
-        </div>
-      ))}
+            <div
+              style={{
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                background: color,
+                flexShrink: 0,
+                boxShadow: isActive ? `0 0 6px ${color}` : 'none',
+                transition: 'box-shadow 0.3s ease',
+              }}
+            />
+            <span
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '10px',
+                color: isActive ? color : 'var(--color-text-secondary)',
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                transition: 'color 0.3s ease',
+              }}
+            >
+              {label}
+            </span>
+          </div>
+        )
+      })}
     </div>
   )
 }

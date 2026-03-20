@@ -10,6 +10,8 @@ interface SkillConnectionsProps {
   skills: Array<{ name: string; category: string; level: string }>
   containerWidth: number
   containerHeight: number
+  hoveredSkill: string | null
+  highlightedConnections: Set<string>
 }
 
 export function SkillConnections({
@@ -17,6 +19,8 @@ export function SkillConnections({
   skills,
   containerWidth,
   containerHeight,
+  hoveredSkill,
+  highlightedConnections,
 }: SkillConnectionsProps) {
   const lines = useMemo(() => {
     return SKILL_CONNECTIONS.flatMap(([fromName, toName]) => {
@@ -60,6 +64,9 @@ export function SkillConnections({
         const length = Math.sqrt(
           Math.pow(line.x2 - line.x1, 2) + Math.pow(line.y2 - line.y1, 2)
         )
+        const isHighlighted = highlightedConnections.has(line.id)
+        const isDimmed = hoveredSkill !== null && !isHighlighted
+
         return (
           <line
             key={line.id}
@@ -68,14 +75,15 @@ export function SkillConnections({
             x2={line.x2}
             y2={line.y2}
             stroke={line.color}
-            strokeWidth={0.5}
-            strokeOpacity={0.2}
+            strokeWidth={isHighlighted ? 1.5 : 0.5}
+            strokeOpacity={isDimmed ? 0.03 : isHighlighted ? 0.7 : 0.2}
             strokeDasharray={length}
             strokeDashoffset={length}
-            data-connection={`${line.fromName}-${line.toName}`}
+            data-connection={line.id}
             style={{
               animation: `drawLine 0.8s ease forwards`,
               animationDelay: `${1.5 + index * 0.05}s`,
+              transition: 'stroke-opacity 0.3s ease, stroke-width 0.3s ease',
             }}
           />
         )

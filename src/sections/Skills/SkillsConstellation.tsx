@@ -4,7 +4,21 @@ import { generateConstellationPositions } from '../../utils/constellation'
 import { SkillNode } from './SkillNode'
 import { SkillConnections } from './SkillConnections'
 
-export function SkillsConstellation() {
+interface SkillsConstellationProps {
+  hoveredSkill: string | null
+  highlightedNodes: Set<string>
+  highlightedConnections: Set<string>
+  onNodeEnter: (name: string) => void
+  onNodeLeave: () => void
+}
+
+export function SkillsConstellation({
+  hoveredSkill,
+  highlightedNodes,
+  highlightedConnections,
+  onNodeEnter,
+  onNodeLeave,
+}: SkillsConstellationProps) {
   const { skills } = portfolioData
   const containerRef = useRef<HTMLDivElement>(null)
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
@@ -15,7 +29,7 @@ export function SkillsConstellation() {
     []
   )
 
-  // Track real container dimensions via ResizeObserver for SVG coordinate calc
+  // Track real container pixel dimensions for SVG line coordinates
   useEffect(() => {
     if (!containerRef.current) return
     const observer = new ResizeObserver((entries) => {
@@ -36,13 +50,15 @@ export function SkillsConstellation() {
         minHeight: '500px',
       }}
     >
-      {/* Connection lines rendered behind nodes — only once dimensions are known */}
+      {/* Connection lines — rendered behind nodes, only once dimensions known */}
       {dimensions.width > 0 && (
         <SkillConnections
           positions={positions}
           skills={skills}
           containerWidth={dimensions.width}
           containerHeight={dimensions.height}
+          hoveredSkill={hoveredSkill}
+          highlightedConnections={highlightedConnections}
         />
       )}
 
@@ -55,6 +71,10 @@ export function SkillsConstellation() {
           x={positions[index]?.x ?? 50}
           y={positions[index]?.y ?? 50}
           index={index}
+          isHovered={hoveredSkill === skill.name}
+          isDimmed={hoveredSkill !== null && !highlightedNodes.has(skill.name)}
+          onMouseEnter={() => onNodeEnter(skill.name)}
+          onMouseLeave={onNodeLeave}
         />
       ))}
     </div>

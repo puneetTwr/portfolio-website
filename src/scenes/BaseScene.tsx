@@ -1,3 +1,7 @@
+import { useRef } from 'react'
+import { useFrame, useThree } from '@react-three/fiber'
+import * as THREE from 'three'
+import { lerp } from '../utils'
 import { Starfield } from './Starfield'
 
 /**
@@ -6,6 +10,25 @@ import { Starfield } from './Starfield'
  * No visible meshes of its own — only environment setup and scene composition.
  */
 export function BaseScene() {
+  const { camera } = useThree()
+  const trailLightRef = useRef<THREE.PointLight>(null)
+
+  useFrame(() => {
+    if (trailLightRef.current) {
+      trailLightRef.current.position.x = lerp(
+        trailLightRef.current.position.x,
+        camera.position.x,
+        0.02
+      )
+      trailLightRef.current.position.y = lerp(
+        trailLightRef.current.position.y,
+        camera.position.y,
+        0.02
+      )
+      trailLightRef.current.position.z = camera.position.z + 2
+    }
+  })
+
   return (
     <>
       {/* Deep-space ambient fill — very dim to keep the scene dark */}
@@ -25,6 +48,16 @@ export function BaseScene() {
         intensity={0.3}
         color="#8b5cf6"
         distance={30}
+      />
+
+      {/* Trailing camera light — soft white glow that stays ahead of the camera */}
+      <pointLight
+        ref={trailLightRef}
+        position={[0, 0, 7]}
+        intensity={0.3}
+        color="#ffffff"
+        distance={15}
+        decay={2}
       />
 
       {/* Exponential fog — creates depth and fades distant geometry to near-black */}

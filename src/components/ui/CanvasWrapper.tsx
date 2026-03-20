@@ -1,6 +1,6 @@
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { BaseScene } from '../../scenes/BaseScene'
+import { BaseScene, CameraController } from '../../scenes'
 
 interface CanvasWrapperProps {
   children?: React.ReactNode
@@ -46,6 +46,7 @@ export function CanvasWrapper({ children }: CanvasWrapperProps) {
         }}
       >
         <Suspense fallback={null}>
+          <CameraController />
           <BaseScene />
           {children}
         </Suspense>

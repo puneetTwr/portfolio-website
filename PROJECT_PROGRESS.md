@@ -405,9 +405,9 @@ All prompts completed and verified.
 - Phase 6 — Skills constellation
 - Phase 7 — About section
 - Phase 8 — Contact section
+- Phase 9 — Scroll camera animation
 
 **REMAINING:**
-- Phase 9  — Scroll camera animation
 - Phase 10 — Post-processing and polish
 - Phase 11 — Icosahedron nav companion
 - Phase 12 — Final content and deployment

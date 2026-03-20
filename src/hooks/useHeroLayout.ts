@@ -27,7 +27,7 @@ const MEDIUM_LAYOUT: HeroLayoutConfig = {
 }
 
 const MOBILE_LAYOUT: HeroLayoutConfig = {
-  objectPosition: [0, 1.8, 0],
+  objectPosition: [0, 1.2, 0],
   objectScale: 0.65,
   textAlign: 'center',
   textPosition: 'bottom-center',

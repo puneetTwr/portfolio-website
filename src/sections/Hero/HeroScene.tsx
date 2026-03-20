@@ -7,21 +7,16 @@ import { useHeroVisibility } from '../../hooks/useHeroVisibility'
 import { useHeroLayout } from '../../hooks'
 import { HeroProvider, useHeroContext } from '../../context/HeroContext'
 import { lerp } from '../../utils'
-import { useThree } from '@react-three/fiber'
 
 function HeroSceneContent() {
   const groupRef = useRef<THREE.Group>(null)
   const { offsetX, offsetY } = useHeroParallax()
   const { isDragging } = useHeroContext()
   const { exitProgress, visibility } = useHeroVisibility()
-  const { objectPosition, objectScale, isMobile } = useHeroLayout()
-  const { camera } = useThree()
+  const { objectPosition, objectScale } = useHeroLayout()
 
   useFrame(() => {
     if (!groupRef.current) return
-
-    const targetCameraY = isMobile ? 0.6 : 0
-    camera.position.y = lerp(camera.position.y, targetCameraY, 0.05)
 
     // Parallax
     if (visibility > 0.1 && !isDragging.current) {

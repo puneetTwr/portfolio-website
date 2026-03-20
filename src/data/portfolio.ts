@@ -59,6 +59,55 @@ export const CONTACT_CONFIG = {
   resumeUrl: PERSONAL_DETAILS.resumeUrl,
 } as const
 
+export const CAMERA_KEYFRAMES = [
+  {
+    section: 'hero',
+    scrollProgress: 0,
+    position: { x: 0, y: 0, z: 5 },
+    rotation: { x: 0, y: 0, z: 0 },
+    fov: 75,
+    fogDensity: 0.035,
+    ambientIntensity: 0.1,
+  },
+  {
+    section: 'projects',
+    scrollProgress: 0.25,
+    position: { x: -0.3, y: -0.5, z: 3 },
+    rotation: { x: 0.05, y: 0, z: 0 },
+    fov: 72,
+    fogDensity: 0.028,
+    ambientIntensity: 0.12,
+  },
+  {
+    section: 'skills',
+    scrollProgress: 0.5,
+    position: { x: 0.4, y: -1, z: 1.5 },
+    rotation: { x: 0.08, y: -0.05, z: 0 },
+    fov: 70,
+    fogDensity: 0.022,
+    ambientIntensity: 0.15,
+  },
+  {
+    section: 'about',
+    scrollProgress: 0.75,
+    position: { x: -0.2, y: -1.5, z: 0.5 },
+    rotation: { x: 0.05, y: 0.05, z: 0 },
+    fov: 68,
+    fogDensity: 0.018,
+    ambientIntensity: 0.12,
+  },
+  {
+    section: 'contact',
+    scrollProgress: 1,
+    position: { x: 0, y: -2, z: 0 },
+    rotation: { x: 0.03, y: 0, z: 0 },
+    fov: 68,
+    fogDensity: 0.015,
+    ambientIntensity: 0.1,
+  },
+] as const
+
+
 
 export const TERMINAL_LINES = [
   {

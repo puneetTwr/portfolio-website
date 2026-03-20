@@ -95,3 +95,14 @@ export interface Section {
   label: string
   index: number
 }
+
+export interface HeroLayoutConfig {
+  objectPosition: [number, number, number]
+  objectScale: number
+  textAlign: 'left' | 'center'
+  textPosition: 'left' | 'bottom-center'
+  textMaxWidth: string
+  textPadding: string
+  isMobile: boolean
+  isMedium: boolean
+}

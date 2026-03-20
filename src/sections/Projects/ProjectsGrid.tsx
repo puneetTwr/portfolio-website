@@ -2,12 +2,14 @@ import { type ReactNode } from 'react'
 import { portfolioData } from '../../data/portfolio'
 import { ProjectCard } from './ProjectCard'
 import { NGATCard } from './NGATCard'
+import type { Project } from '../../types'
 
 interface ProjectsGridProps {
   children?: ReactNode
+  onProjectClick: (project: Project) => void
 }
 
-export function ProjectsGrid({ children }: ProjectsGridProps) {
+export function ProjectsGrid({ children, onProjectClick }: ProjectsGridProps) {
   const { projects } = portfolioData
 
   const mapProjectToProps = (project: typeof projects[0], featured: boolean) => ({
@@ -48,6 +50,7 @@ export function ProjectsGrid({ children }: ProjectsGridProps) {
           abbreviation={ngatProject.abbreviation}
           projectType={ngatProject.projectType}
           features={ngatProject.features ?? []}
+          onViewDetails={() => onProjectClick(ngatProject)}
         />
       </div>
       <div
@@ -55,14 +58,14 @@ export function ProjectsGrid({ children }: ProjectsGridProps) {
         className="md:row-start-1 md:col-start-2"
         style={{ alignSelf: 'start' }}
       >
-        <ProjectCard {...mapProjectToProps(projects[1], false)} />
+        <ProjectCard {...mapProjectToProps(projects[1], false)} onViewDetails={() => onProjectClick(projects[1] as Project)} />
       </div>
       <div
         data-projects="card-2"
         className="md:row-start-2 md:col-start-2"
         style={{ alignSelf: 'start' }}
       >
-        <ProjectCard {...mapProjectToProps(projects[2], false)} />
+        <ProjectCard {...mapProjectToProps(projects[2], false)} onViewDetails={() => onProjectClick(projects[2] as Project)} />
       </div>
       {children}
     </div>

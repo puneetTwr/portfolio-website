@@ -15,7 +15,7 @@
   --z-sections: 10;
   --z-overlay: 20;
   --z-nav: 30;
-  --z-modal: 40;
+  --z-modal: 100;
 }
 
 html,
@@ -82,6 +82,16 @@ body {
 }
 .project-card-scroll::-webkit-scrollbar-thumb {
   background: var(--color-neon-cyan);
+  opacity: 0.3;
+  border-radius: 2px;
+}
+
+.modal-scroll::-webkit-scrollbar { width: 3px; }
+.modal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-text-secondary);
   opacity: 0.3;
   border-radius: 2px;
 }

@@ -4,23 +4,30 @@ import * as THREE from 'three'
 import { HeroObject } from '../../scenes/HeroObject'
 import { useHeroParallax } from '../../hooks/useHeroParallax'
 import { useHeroVisibility } from '../../hooks/useHeroVisibility'
+import { useHeroLayout } from '../../hooks'
 import { HeroProvider, useHeroContext } from '../../context/HeroContext'
 import { lerp } from '../../utils'
+import { useThree } from '@react-three/fiber'
 
 function HeroSceneContent() {
   const groupRef = useRef<THREE.Group>(null)
   const { offsetX, offsetY } = useHeroParallax()
   const { isDragging } = useHeroContext()
   const { exitProgress, visibility } = useHeroVisibility()
+  const { objectPosition, objectScale, isMobile } = useHeroLayout()
+  const { camera } = useThree()
 
   useFrame(() => {
     if (!groupRef.current) return
+
+    const targetCameraY = isMobile ? 0.6 : 0
+    camera.position.y = lerp(camera.position.y, targetCameraY, 0.05)
 
     // Parallax
     if (visibility > 0.1 && !isDragging.current) {
       groupRef.current.position.x = lerp(
         groupRef.current.position.x,
-        offsetX,
+        objectPosition[0] + offsetX,
         0.08
       )
     }
@@ -36,23 +43,23 @@ function HeroSceneContent() {
 
     groupRef.current.position.y = lerp(
       groupRef.current.position.y,
-      isDragging.current ? groupRef.current.position.y : (0.3 + offsetY + exitY),
+      isDragging.current ? groupRef.current.position.y : (objectPosition[1] + offsetY + exitY),
       0.08
     )
 
     groupRef.current.position.z = lerp(
       groupRef.current.position.z,
-      exitZ + (distanceFromCenter * 0.3),
+      objectPosition[2] + exitZ + (distanceFromCenter * 0.3),
       0.08
     )
 
     groupRef.current.scale.setScalar(
-      lerp(groupRef.current.scale.x, exitScale, 0.08)
+      lerp(groupRef.current.scale.x, objectScale * exitScale, 0.08)
     )
   })
 
   return (
-    <group ref={groupRef} position={[0, 0.3, 0]}>
+    <group ref={groupRef} position={objectPosition}>
       <HeroObject isInteractive={visibility > 0.5} exitOpacity={visibility} />
     </group>
   )

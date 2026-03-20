@@ -1,8 +1,10 @@
 import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { useHeroLayout } from '../../hooks'
 
 export function ScrollPrompt() {
   const promptRef = useRef<HTMLDivElement>(null)
+  const { isMobile } = useHeroLayout()
 
   // Fade out once user has scrolled more than 80px
   useEffect(() => {
@@ -33,21 +35,21 @@ export function ScrollPrompt() {
       promptRef.current,
       { autoAlpha: 0, y: 10 },
       {
-        autoAlpha: 1,
+        autoAlpha: isMobile ? 0.6 : 1,
         y: 0,
         duration: 0.6,
         ease: 'power2.out',
         delay: prefersReducedMotion ? 0 : 2.2,
       }
     )
-  }, [])
+  }, [isMobile])
 
   return (
     <div
       ref={promptRef}
       style={{
         position: 'absolute',
-        bottom: '32px',
+        bottom: isMobile ? '16px' : '32px',
         left: '50%',
         transform: 'translateX(-50%)',
         display: 'flex',

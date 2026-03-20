@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef } from 'react'
 import type { ProjectFeature } from '../../types'
 import { ProjectIcon } from './ProjectIcon'
 import { CompanyBadge } from './CompanyBadge'
@@ -19,6 +19,7 @@ interface NGATCardProps {
   abbreviation: string
   projectType: 'professional' | 'personal'
   features: ProjectFeature[]
+  onViewDetails: () => void
 }
 
 export function NGATCard({
@@ -33,9 +34,9 @@ export function NGATCard({
   abbreviation,
   projectType,
   features,
+  onViewDetails,
 }: NGATCardProps) {
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null)
-  const [isExpanded, setIsExpanded] = useState(false)
 
   const cardRef = useRef<HTMLDivElement>(null)
   const { transform, transition, isHovered, tiltX, tiltY } = useCardTilt(cardRef, {
@@ -44,15 +45,7 @@ export function NGATCard({
     speed: 500,
   })
 
-  useEffect(() => {
-    if (isExpanded) {
-      if (features.length > 0) {
-        setExpandedFeature(features[0].title)
-      }
-    } else {
-      setExpandedFeature(null)
-    }
-  }, [isExpanded, features])
+
 
   return (
     <div
@@ -255,7 +248,7 @@ export function NGATCard({
               outcomes={feature.outcomes}
               techStack={feature.techStack}
               accentColor={accentColor}
-              isOpen={expandedFeature === feature.title || isExpanded}
+              isOpen={expandedFeature === feature.title}
               onToggle={() =>
                 setExpandedFeature(
                   expandedFeature === feature.title ? null : feature.title
@@ -274,7 +267,7 @@ export function NGATCard({
         }}
       >
         <button
-          onClick={() => setIsExpanded(!isExpanded)}
+          onClick={onViewDetails}
           style={{
             background: 'transparent',
             border: `0.5px solid ${accentColor}`,
@@ -291,7 +284,7 @@ export function NGATCard({
             marginTop: '12px',
           }}
         >
-          {isExpanded ? 'Show Less ↑' : 'View Details →'}
+          View Details →
         </button>
       </div>
     </div>

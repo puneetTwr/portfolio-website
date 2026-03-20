@@ -2,8 +2,11 @@ import { useRef } from 'react'
 import { portfolioData } from '../../data/portfolio'
 import { HeroStats } from './HeroStats'
 import { useHeroAnimation } from './useHeroAnimation'
+import { useHeroLayout } from '../../hooks'
 
 export function HeroText() {
+  const { textAlign, textMaxWidth, textPadding, isMobile } = useHeroLayout()
+
   const { personal } = portfolioData
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -14,10 +17,12 @@ export function HeroText() {
       ref={containerRef}
       style={{
         position: 'absolute',
-        bottom: 0,
+        bottom: isMobile ? 'auto' : 0,
+        top: isMobile ? '50%' : 'auto',
         left: 0,
         width: '100%',
-        padding: '0 10% 12vh 10%',
+        padding: textPadding,
+        textAlign,
         pointerEvents: 'none',
       }}
     >
@@ -31,6 +36,7 @@ export function HeroText() {
           height: '60%',
           background: 'linear-gradient(to bottom, transparent, var(--color-neon-cyan), transparent)',
           opacity: 0.6,
+          display: isMobile ? 'none' : 'block',
         }}
       />
 
@@ -62,6 +68,7 @@ export function HeroText() {
           lineHeight: 1.1,
           marginBottom: '12px',
           letterSpacing: '-0.02em',
+          textAlign: isMobile ? 'center' : 'left',
         }}
       >
         {personal.name}
@@ -76,6 +83,7 @@ export function HeroText() {
           color: 'var(--color-neon-cyan)',
           marginBottom: '16px',
           letterSpacing: '0.08em',
+          textAlign: isMobile ? 'center' : 'left',
         }}
       >
         {personal.title}
@@ -99,19 +107,19 @@ export function HeroText() {
           fontSize: 'clamp(0.8rem, 1.5vw, 1rem)',
           fontWeight: 400,
           color: 'var(--color-text-secondary)',
-          maxWidth: '480px',
+          maxWidth: textMaxWidth,
+          margin: isMobile ? '0 auto 24px' : '0 0 24px',
           lineHeight: 1.6,
-          marginBottom: '24px',
         }}
       >
         {personal.tagline}
       </p>
 
-      <div data-hero="stats">
+      <div data-hero="stats" style={{ display: 'flex', justifyContent: isMobile ? 'center' : 'flex-start' }}>
         <HeroStats />
       </div>
 
-      <div data-hero="cta" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
+      <div data-hero="cta" style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', justifyContent: isMobile ? 'center' : 'flex-start' }}>
         <a
           href="#projects"
           style={{

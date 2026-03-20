@@ -51,12 +51,37 @@ body {
 [data-hero],
 [data-projects],
 [data-skills],
-[data-about] {
+[data-about],
+[data-contact] {
   visibility: hidden;
 }
 
 [data-skill-node] {
   visibility: hidden;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.contact-input:focus {
+  border-color: var(--color-neon-cyan) !important;
+  background: rgba(0, 255, 255, 0.05) !important;
+}
+
+.contact-input::placeholder {
+  color: var(--color-text-secondary);
+  opacity: 0.5;
 }
 
 .about-grid {

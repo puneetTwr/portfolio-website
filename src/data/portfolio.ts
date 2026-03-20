@@ -51,6 +51,15 @@ export const SECTION_SUBTITLES = {
   contact: 'Open to new opportunities and collaborations',
 } as const
 
+export const CONTACT_CONFIG = {
+  formEndpoint: 'https://formspree.io/f/placeholder',
+  email: PERSONAL_DETAILS.email,
+  linkedin: PERSONAL_DETAILS.linkedin,
+  github: PERSONAL_DETAILS.github,
+  resumeUrl: PERSONAL_DETAILS.resumeUrl,
+} as const
+
+
 export const TERMINAL_LINES = [
   {
     command: 'whoami',

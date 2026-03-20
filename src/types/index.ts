@@ -112,3 +112,11 @@ export interface TerminalLine {
   output: string
   outputColor: string
 }
+
+export interface ContactConfig {
+  formEndpoint: string
+  email: string
+  linkedin: string
+  github: string
+  resumeUrl: string
+}

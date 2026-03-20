@@ -291,4 +291,125 @@ All prompts completed and verified.
 
 ### Visual Style
 - Terminal aesthetic — dark panel, green prompt lines, typewriter text animation, monospace throughout
+- Terminal aesthetic — dark panel, green prompt lines, typewriter text animation, monospace throughout
 - Experience timeline — vertical line with nodes for each role and platform highlight
+
+---
+
+## Phase 7 — About Section — COMPLETE
+
+All prompts completed and verified.
+
+### Components Built
+- **AboutHeading** — animated section heading with scroll-triggered GSAP entrance, cyan accent color
+- **TerminalWindow** — terminal chrome with three-dot buttons (red/yellow/green), title bar, scan line effect, dark panel aesthetic
+- **TerminalLine** — individual command + output pair with typewriter animation, blinking cursor during typing, output fade-in on completion
+- **TerminalPanel** — orchestrates sequential typewriter animation across all `TERMINAL_LINES`, uses `useInView` to trigger on scroll, final blinking cursor after all lines complete
+- **TimelineNode** — expandable career role node with vertical connecting line, animated dot, chevron toggle, first node expanded by default
+- **PlatformHighlight** — platform card inside expanded timeline node showing contributions, impact, tech
+- **ExperienceTimeline** — vertical timeline container with staggered GSAP entrance, timeline line draw animation, education endpoint at bottom
+
+### Hooks Built
+- **useTypewriter** — character-by-character text animation with speed, delay, and reduced-motion support
+
+### Content Added to `portfolio.ts`
+- `TERMINAL_LINES` constant — 7 terminal command/output pairs for the bio terminal animation
+
+### Layout
+- Two-column grid — terminal left, timeline right
+- Responsive — collapses to single column on mobile via `.about-grid` CSS class with media query
+- Both columns animate in from opposite sides via GSAP ScrollTrigger
+
+---
+
+## Session Checkpoint — Paused After Phase 7
+
+### Current Implementation State
+
+**Complete phases:**
+| Phase | Status |
+|---|---|
+| Phase 1 — Foundation and data | ✅ |
+| Phase 2 — Persistent canvas, starfield, parallax | ✅ |
+| Phase 3 — Hero section (icosahedron, text, animations) | ✅ |
+| Phase 4 — Navigation (nav dots, scroll progress bar) | ✅ |
+| Phase 5 — Projects section (cards, modal, metrics) | ✅ |
+| Phase 6 — Skills constellation | ✅ |
+| Phase 7 — About section (terminal, timeline) | ✅ |
+| Phase 8 — Contact section | ❌ Not started |
+
+### Where to Resume
+
+**Next: Phase 8 — Contact Section** (single-prompt phase)
+- Section heading
+- Neon-styled contact form (name, email, message)
+- Social links row (email, LinkedIn, GitHub, resume)
+- Form submission via mailto or formspree.io
+
+### Resuming Instructions
+
+1. Read `DEVELOPMENT_GUIDELINES.md`
+2. Read `PROJECT_PROGRESS.md` in full
+3. Read `src/data/portfolio.ts` to confirm content
+4. Run dev server and confirm no errors
+5. Visually check: Hero → Projects → Skills → About
+6. Confirm nav dots and scroll progress bar working
+7. Await next prompt for Phase 8
+
+### Key Architectural Decisions to Remember
+
+- **GSAP must never animate `transform` on `[data-skill-node]` elements** — CSS `nodeFloat` keyframe owns `transform` exclusively
+- Icosahedron will later travel to nav dot position (Phase 11) — fly-away is temporary
+- All content comes from `src/data/portfolio.ts` only
+- Modal system uses React Portal for above-canvas rendering
+- Section heights use `min-height: max(100vh, 600px)` except Hero (fixed `100vh`)
+- `useHeroLayout` hook coordinates 3D object and HTML text positions across breakpoints
+
+### Known Issues to Watch on Resume
+
+- If dev server has stale cache: `npm run dev --force`
+- If GSAP ScrollTrigger animations do not fire: confirm `gsap.registerPlugin(ScrollTrigger)` is called before any ScrollTrigger usage
+- If skill nodes lose float animation: check no new code is animating `transform` on `[data-skill-node]`
+
+---
+
+## Phase 8 — Contact Section — COMPLETE
+
+All prompts completed and verified.
+
+### Components Built
+- **ContactHeading** — animated section heading with pink accent color matching contact theme
+- **ContactForm** — fully functional neon-styled form with name, email, message fields, client-side validation, Formspree submission, success state, error handling, loading state
+- **SocialLinks** — right column with personal note, direct contact links (email, LinkedIn, GitHub), resume download button, availability status badge
+- **Footer strip** — copyright and back-to-top button
+
+### Hooks Built
+- **useFormSubmit** — async Formspree submission handler with loading, success, error, and reset states
+- **useContactAnimation** — scroll-triggered GSAP entrance for all contact section elements
+
+### Notes
+- Formspree endpoint is placeholder — Puneet must create Formspree account and replace placeholder in `CONTACT_CONFIG.formEndpoint` in `portfolio.ts`
+- Resume download links to `/resume.pdf` which must be added to the `public/` folder
+- GitHub link uses placeholder URL — update `PERSONAL_DETAILS.github` in `portfolio.ts` when ready
+
+---
+
+## Phases Complete — All Content Sections Done
+
+**COMPLETE:**
+- Phase 1 — Foundation and data
+- Phase 2 — Canvas, starfield, parallax
+- Phase 3 — Hero section
+- Phase 4 — Navigation system
+- Phase 5 — Projects section
+- Phase 6 — Skills constellation
+- Phase 7 — About section
+- Phase 8 — Contact section
+
+**REMAINING:**
+- Phase 9  — Scroll camera animation
+- Phase 10 — Post-processing and polish
+- Phase 11 — Icosahedron nav companion
+- Phase 12 — Final content and deployment
+
+---

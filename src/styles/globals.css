@@ -50,12 +50,37 @@ body {
 
 [data-hero],
 [data-projects],
-[data-skills] {
+[data-skills],
+[data-about] {
   visibility: hidden;
 }
 
 [data-skill-node] {
   visibility: hidden;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.timeline-line {
+  transform-origin: top center;
+  transform: scaleY(0);
+  transition: transform 0.8s ease 0.3s;
+}
+
+.timeline-line.visible {
+  transform: scaleY(1);
 }
 
 @supports (min-height: 100dvh) {
@@ -137,3 +162,30 @@ body {
   }
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.terminal-output {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+@keyframes scanLine {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+
+.terminal-scan {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(0, 255, 255, 0.03);
+  animation: scanLine 4s linear infinite;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal-scan { animation: none; }
+}

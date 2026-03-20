@@ -248,3 +248,47 @@ the card to show full project information — not "View Code".
 ### Skill Nodes Not Visible — Fix 2: GSAP `scale` Overriding CSS `nodeFloat` Transform
 - **Root cause**: The GSAP entrance animation used `scale: 0 → 1`. GSAP writes `scale` as an inline `transform` property. Inline styles have higher cascade priority than CSS animations, so after GSAP finished, its inline `transform: matrix(1,0,0,1,0,0)` permanently overrode the CSS `nodeFloat` keyframe's `transform: translate(-50%, -50%) translateY(...)`. Nodes snapped out of position and stopped floating.
 - **Fix**: Removed `scale` from the GSAP `fromTo` entirely. GSAP now only animates `autoAlpha` (opacity + visibility). The CSS `nodeFloat` keyframe owns the `transform` property exclusively — no conflict.
+
+---
+
+## Phase 6 — Skills Section — COMPLETE
+
+All prompts completed and verified.
+
+### Components Built
+- **SkillsHeading** — animated section heading with scroll-triggered GSAP entrance, purple accent color
+- **SkillsConstellation** — responsive container with `ResizeObserver` for accurate SVG line coordinates
+- **SkillNode** — floating circle with category color, size by proficiency, inner dot for primary nodes, glow ring for primary nodes, tooltip on hover
+- **SkillConnections** — SVG layer with draw-on animation for connection lines between related skills
+- **SkillsLegend** — category color key, highlights active category on node hover
+
+### Hooks Built
+- **useSkillHover** — manages hover state, calculates highlighted nodes and connections via Set lookups
+
+### Utilities Added
+- `src/utils/constellation.ts` — `seededRandom`, `isFarEnough`, `generateConstellationPositions`, `getNodeSize`, `getNodeColor`, `SKILL_CONNECTIONS`, `getConnectionCoords`
+
+### Known Constraint — Permanent
+> **GSAP must never animate `transform` on `[data-skill-node]` elements.**
+> The CSS `nodeFloat` keyframe owns `transform` exclusively (it carries `translate(-50%, -50%)` plus `translateY`).
+> GSAP only animates `autoAlpha` on these elements.
+> This constraint must be respected in all future prompts that touch the Skills section.
+
+---
+
+## Phase 7 — About Section — STARTING NEXT
+
+### Components to Build
+- **AboutHeading** — section heading
+- **TerminalPanel** — holographic terminal-style bio panel
+- **ExperienceTimeline** — visual vertical career timeline
+- **AboutSection** — parent section component
+
+### Content Source
+- `portfolioData.personal` — bio, name, title, location
+- `portfolioData.experience` — timeline data
+- `portfolioData.metrics` — key numbers for terminal
+
+### Visual Style
+- Terminal aesthetic — dark panel, green prompt lines, typewriter text animation, monospace throughout
+- Experience timeline — vertical line with nodes for each role and platform highlight

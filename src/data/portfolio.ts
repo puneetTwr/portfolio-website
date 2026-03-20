@@ -51,6 +51,44 @@ export const SECTION_SUBTITLES = {
   contact: 'Open to new opportunities and collaborations',
 } as const
 
+export const TERMINAL_LINES = [
+  {
+    command: 'whoami',
+    output: 'Puneet Tanwar',
+    outputColor: 'var(--color-text-primary)',
+  },
+  {
+    command: 'cat role.txt',
+    output: 'Frontend Developer @ In Time Tec',
+    outputColor: 'var(--color-neon-cyan)',
+  },
+  {
+    command: 'cat experience.txt',
+    output: '3+ years · React · TypeScript · Node.js',
+    outputColor: 'var(--color-text-secondary)',
+  },
+  {
+    command: 'cat stack.txt',
+    output: 'React · TypeScript · Redux · Node.js · MongoDB',
+    outputColor: 'var(--color-text-secondary)',
+  },
+  {
+    command: 'cat philosophy.txt',
+    output: 'Production-first · Test-driven · Full ownership',
+    outputColor: 'var(--color-neon-purple)',
+  },
+  {
+    command: 'cat location.txt',
+    output: 'Jaipur, India · Open to remote',
+    outputColor: 'var(--color-text-secondary)',
+  },
+  {
+    command: 'cat education.txt',
+    output: 'B.Tech Computer Science · SKIT · 2023',
+    outputColor: 'var(--color-text-secondary)',
+  },
+] as const
+
 // ─────────────────────────────────────────────
 // PERSONAL
 // ─────────────────────────────────────────────

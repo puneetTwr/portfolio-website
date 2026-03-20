@@ -106,3 +106,9 @@ export interface HeroLayoutConfig {
   isMobile: boolean
   isMedium: boolean
 }
+
+export interface TerminalLine {
+  command: string
+  output: string
+  outputColor: string
+}

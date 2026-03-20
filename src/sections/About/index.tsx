@@ -1,22 +1,34 @@
-const PLACEHOLDER_STYLE: React.CSSProperties = {
-  minHeight: '100vh',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  pointerEvents: 'auto',
-}
-
-const LABEL_STYLE: React.CSSProperties = {
-  fontFamily: 'var(--font-mono)',
-  color: 'var(--color-text-secondary)',
-  fontSize: '14px',
-  letterSpacing: '0.1em',
-}
+import { useRef } from 'react'
+import { AboutHeading } from './AboutHeading'
+import { TerminalPanel } from './TerminalPanel'
+import { ExperienceTimeline } from './ExperienceTimeline'
+import { useAboutAnimation } from './useAboutAnimation'
 
 export default function About() {
+  const sectionRef = useRef<HTMLElement>(null)
+  useAboutAnimation(sectionRef)
+
   return (
-    <div style={PLACEHOLDER_STYLE}>
-      <p style={LABEL_STYLE}>// about section</p>
-    </div>
+    <section
+      ref={sectionRef}
+      id="about"
+      style={{
+        position: 'relative',
+        width: '100%',
+        minHeight: 'max(100vh, 600px)',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '80px 8% 80px 8%',
+        pointerEvents: 'auto',
+      }}
+    >
+      <AboutHeading />
+
+      <div className="about-grid" style={{ marginTop: '48px' }}>
+        <TerminalPanel />
+        <ExperienceTimeline />
+      </div>
+    </section>
   )
 }

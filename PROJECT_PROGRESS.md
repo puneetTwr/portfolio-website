@@ -430,3 +430,39 @@ All prompts completed and verified.
 - Phase 12 — Final content and deployment
 
 ---
+
+## Bug Fix — Nav Dots Section Detection (Post Phase 10)
+
+ISSUE:
+Nav dots stopped updating when scrolling between
+sections after React.lazy / Suspense was introduced
+in Phase 10 mobile performance pass.
+
+ROOT CAUSE:
+NavDots mounts immediately with the Hero section.
+useActiveSection initialised its IntersectionObserver
+before lazy-loaded sections (Projects, Skills, About,
+Contact) had mounted into the DOM. document.getElementById
+returned null for all sections except hero. The observer
+never re-ran so the other sections were never observed.
+
+FIX APPLIED:
+In useActiveSection.ts — wrapped section observation
+in a MutationObserver that watches document.body for
+DOM mutations. When Suspense boundaries resolve and
+lazy sections paint into the DOM the MutationObserver
+fires a re-tick which calls observeSections again.
+A Set tracks which section ids have already been
+observed to prevent duplicate observation.
+
+RESULT:
+All 5 sections are correctly observed regardless of
+when they mount. Nav dots update correctly on scroll
+through all sections.
+
+CONSTRAINT FOR FUTURE PROMPTS:
+If any new sections or lazy-loaded components are
+added they will automatically be picked up by the
+MutationObserver without any changes to useActiveSection.
+Do not replace the MutationObserver approach with a
+simple useEffect — it will break lazy loading again.

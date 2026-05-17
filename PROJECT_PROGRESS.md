@@ -466,3 +466,253 @@ added they will automatically be picked up by the
 MutationObserver without any changes to useActiveSection.
 Do not replace the MutationObserver approach with a
 simple useEffect — it will break lazy loading again.
+
+---
+
+## Phase 11 — Icosahedron Nav Companion — STASHED
+
+### What was attempted
+Built the foundation for the icosahedron nav
+companion feature across two prompts:
+
+Prompt 11.1 — Infrastructure (COMPLETE, STASHED):
+  - ENABLE_NAV_COMPANION feature flag in portfolio.ts
+  - NavCompanionContext with camera ref bridge
+  - CameraRefSync component to share live camera
+  - useNavDotPositions hook measuring dot positions
+    once on mount and once on resize
+  - screenToWorld utility in worldCoordinates.ts
+  - NavDotPosition interface in types/index.ts
+  - MutationObserver fix in useActiveSection for
+    lazy-loaded sections (THIS FIX IS KEPT)
+
+Prompt 11.2 — 3D Component (PARTIAL, STASHED):
+  - NavCompanionObject — small rotating icosahedron
+  - NavCompanion — travel animation component
+  - Companion appears correctly as small glow
+  - Companion does NOT reach correct nav dot position
+  - Root cause: coordinate mismatch between screen
+    space (HTML nav dots) and 3D world space (canvas)
+  - The Phase 9 scroll-driven camera movement
+    compounds the conversion complexity — dots are
+    measured at hero camera position but companion
+    travels while camera has moved
+
+### Why stashed
+The screen-to-world coordinate conversion is
+non-trivial when combined with a scroll-driven
+moving camera. The companion appears but lands
+in the wrong position. Further debugging was
+deprioritised in favour of content and deployment.
+
+### All changes stashed via git stash
+The codebase is back to the clean Phase 10 state.
+All Phase 11 files have been stashed not deleted
+so work can be resumed later.
+
+### What is KEPT from Phase 11 work
+The MutationObserver fix in useActiveSection.ts
+is the only Phase 11 change that remains in the
+codebase. This fix ensures nav dots work correctly
+with React.lazy loaded sections and must be
+preserved in all future work.
+
+### How to resume Phase 11 later
+When resuming run: git stash pop
+This restores all Phase 11 files.
+
+The root problem to solve:
+  Nav dots exist in HTML screen space.
+  The companion lives in 3D world space.
+  The camera moves as the user scrolls (Phase 9).
+  Screen-to-world conversion must account for
+  the CURRENT camera position at the time the
+  companion needs to move — not the camera
+  position at mount time when dots were measured.
+
+Recommended approach on resume:
+  Instead of converting screen coords to world
+  coords, place invisible R3F plane meshes at
+  the nav dot positions and use those as targets.
+  The meshes live in world space so no conversion
+  is needed. The companion lerps to the mesh
+  position directly.
+
+---
+
+## Phase 12 — Final Content and Deployment — NEXT
+
+### What needs to be done
+
+CONTENT UPDATES:
+  1. Profile photo
+     - Add real photo to public/images/
+     - Update PLACEHOLDER_IMAGE in portfolio.ts
+     - Currently shows placeholder
+
+  2. Resume PDF
+     - Add resume.pdf to public/
+     - CONTACT_CONFIG.resumeUrl = '/resume.pdf'
+     - Download button in Contact section already
+       links to this path — just add the file
+
+  3. Formspree endpoint
+     - Create account at formspree.io (free tier)
+     - Create a new form
+     - Replace placeholder in CONTACT_CONFIG:
+       formEndpoint: 'https://formspree.io/f/REAL_ID'
+     - Test form submission end to end
+
+  4. GitHub URL
+     - Update PERSONAL_DETAILS.github in portfolio.ts
+     - Currently placeholder URL
+
+  5. Review all portfolio content
+     - Read through all text visible on the site
+     - Verify all project details are accurate
+     - Verify all metrics are correct
+     - Verify contact details are correct
+
+DEPLOYMENT:
+  1. Production build
+     - Run npm run build
+     - Verify zero errors
+     - Check bundle size
+
+  2. Deploy to Vercel
+     - Connect GitHub repository to Vercel
+     - Configure build settings:
+       Framework: Vite
+       Build command: npm run build
+       Output directory: dist
+     - Deploy and verify live URL
+
+  3. Custom domain (optional)
+     - Configure custom domain in Vercel if available
+
+  4. Final live testing
+     - Test all sections on live URL
+     - Test on mobile device (real device not emulated)
+     - Test contact form with real Formspree endpoint
+     - Test resume download
+     - Test all navigation
+
+### Current codebase state
+- All 5 sections complete and working
+- Navigation working with MutationObserver fix
+- Camera movement working (Phase 9)
+- Sprite glow on icosahedron working
+- Mobile performance pass complete
+- PostProcessing disabled (performance)
+- Git is clean — Phase 11 stashed separately
+
+### Resuming instructions
+When resuming for Phase 12:
+1. Read DEVELOPMENT_GUIDELINES.md
+2. Read PROJECT_PROGRESS.md
+3. Run npm run dev and verify all sections work
+4. Have the following ready:
+   - Profile photo file
+   - Resume PDF file
+   - Formspree account created
+   - GitHub profile URL
+5. Await Phase 12 prompts
+
+---
+
+## Documentation Audit — 2026-05-17
+
+The following components, hooks, and architectural details were present in the
+codebase but not previously captured in this document. Added for completeness.
+
+### Hooks implemented but not explicitly documented
+
+**useCardTilt** (`src/hooks/useCardTilt.ts`)
+- RAF-throttled 3D perspective tilt effect for project cards on hover
+- Computes rotateX/rotateY from mouse position relative to card center
+- Touch-aware: disabled automatically on touch devices
+- Returns `transform`, `transition`, `isHovered`, `tiltX`, `tiltY`
+- Used in: ProjectCard, NGATCard
+
+**useCountUp** (`src/hooks/useCountUp.ts`)
+- Animated number counter for hero stats
+- Used in: HeroStats
+
+**useModalState** (`src/hooks/useModalState.ts`)
+- Open/close state with selected project ref
+- Used in: Projects section index, ProjectModal, NGATCard
+
+**useSectionBoundaryShake** (`src/hooks/useSectionBoundaryShake.ts`)
+- Generates a small XYZ camera shake offset when user crosses section boundaries
+- Consumed by CameraController via `shakeOffset`; enabled/disabled via `enableShake` prop
+
+**useCameraScroll** (`src/hooks/useCameraScroll.ts`)
+- Reads `window.scrollY` and interpolates across `CAMERA_KEYFRAMES` from portfolio.ts
+- Returns a getter function (`getCameraTargets`) called every frame in CameraController
+
+**useInView** (`src/hooks/useInView.ts`)
+- IntersectionObserver wrapper returning a boolean ref
+- Used by TerminalPanel to trigger typewriter animation on scroll
+
+**useScrollPosition** (`src/hooks/useScrollPosition.ts`)
+- Returns current `window.scrollY` via RAF, used by ScrollPrompt and ScrollProgressBar
+
+**useHeroLayout** (`src/hooks/useHeroLayout.ts`)
+- Returns responsive layout config (3D object position, HTML text position)
+  that shifts based on viewport width breakpoint
+- Used by: HeroScene, HeroText
+
+### Canvas architecture details (Phase 10)
+
+**Adaptive DPR**
+- `Canvas dpr={[1, pixelRatio]}` — pixel ratio is capped at 2 via `useDeviceCapability`
+  to prevent 3x GPU load on high-DPI retina devices
+
+**Adaptive Performance**
+- `Canvas performance={{ min: 0.5 }}` — R3F automatically scales DPR down
+  to 0.5x if the frame rate drops below 60fps (adaptive rendering)
+
+**Vignette overlay**
+- A CSS `radial-gradient` div sits over the canvas inside CanvasWrapper
+  to create a darkened edge vignette without a GPU post-process pass
+
+**IcosahedronGlow clarification**
+- Phase 10 notes mention "concentric floating mesh layers" — these are in fact
+  THREE.Sprite objects with AdditiveBlending (not icosahedron meshes):
+    Sprite 1: cyan glow, scale 4.5, opacity pulses 0.1–0.6
+    Sprite 2: outer soft cyan, scale 7, opacity ~0.08
+    Sprite 3: purple accent, scale 3.5, opacity pulses 0.05–0.2
+  Sprites always face the camera automatically. Disabled on isLowEnd devices.
+
+### Mobile-specific enhancements (Phase 10.1 — not separately logged)
+
+**HeroObject Float parameters**
+- `rotationIntensity`: 0.2 desktop → 0.1 mobile
+- `floatIntensity`: 0.8 desktop → 0.3 mobile
+- Reduces vestibular motion on mobile
+
+**SkillNode mobile tooltip**
+- Primary-level skill nodes always show their tooltip on mobile
+  (`isMobile && level === 'primary'` condition in SkillNode.tsx)
+- Addresses the UX gap of no hover on touch devices
+
+**ProjectsGrid mobile layout**
+- NGAT featured card uses `gridRow: '1/3'` only on desktop
+- On mobile it falls back to `auto` flow so all cards stack vertically
+
+**ContactForm iOS touch-zoom fix**
+- Input `font-size` set to 16px minimum to prevent iOS Safari auto-zoom
+  on input focus (noted in Phase 10 but not detailed)
+
+### Permanent architectural notes
+
+**PostProcessing.tsx**
+- File exists at `src/scenes/PostProcessing.tsx` and is exported from `scenes/index.ts`
+- It is NEVER imported by CanvasWrapper or any rendered component
+- Tree-shaking should eliminate it from the bundle, but this should be
+  verified with `npm run build` and bundle analysis before deployment
+
+**ProjectsGrid project ordering**
+- NGAT is featured because it is `projects[0]` — index-based, not flag-based
+- Adding a new project before index 0 would accidentally replace the featured card
+- A `featured: boolean` field on the Project type is a planned improvement

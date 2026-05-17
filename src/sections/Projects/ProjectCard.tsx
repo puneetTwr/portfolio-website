@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { memo, useRef } from 'react'
 import { ProjectIcon } from './ProjectIcon'
 import { CompanyBadge } from './CompanyBadge'
 import { TechBadge } from './TechBadge'
@@ -21,7 +21,7 @@ interface ProjectCardProps {
   onViewDetails: () => void
 }
 
-export function ProjectCard({
+export const ProjectCard = memo(function ProjectCard({
   title,
   role,
   duration,
@@ -244,4 +244,4 @@ export function ProjectCard({
       </div>
     </div>
   )
-}
+})

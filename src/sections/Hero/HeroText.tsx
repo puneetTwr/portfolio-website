@@ -5,7 +5,7 @@ import { useHeroAnimation } from './useHeroAnimation'
 import { useHeroLayout } from '../../hooks'
 
 export function HeroText() {
-  const { textAlign, textMaxWidth, textPadding, isMobile } = useHeroLayout()
+  const { textAlign, textMaxWidth, textPadding, isMobile, isMedium } = useHeroLayout()
 
   const { personal } = portfolioData
   const containerRef = useRef<HTMLDivElement>(null)
@@ -30,7 +30,7 @@ export function HeroText() {
         data-hero="line"
         style={{
           position: 'absolute',
-          left: 'calc(10% - 20px)',
+          left: isMedium ? 'calc(6% - 20px)' : 'calc(8% - 24px)',
           top: '10%',
           width: '1px',
           height: '60%',

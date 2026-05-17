@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useCallback } from 'react'
 import { ProjectsHeading } from './ProjectsHeading'
 import { ProjectsGrid } from './ProjectsGrid'
 import { MetricsStrip } from './MetricsStrip'
@@ -14,15 +14,15 @@ export default function Projects() {
   const { isOpen, openModal, closeModal } = useModalState()
   const [activeProject, setActiveProject] = useState<Project | null>(null)
 
-  const handleOpenModal = (project: Project) => {
+  const handleOpenModal = useCallback((project: Project) => {
     setActiveProject(project)
     openModal()
-  }
+  }, [openModal])
 
-  const handleCloseModal = () => {
+  const handleCloseModal = useCallback(() => {
     closeModal()
     setTimeout(() => setActiveProject(null), 350)
-  }
+  }, [closeModal])
 
   return (
     <section

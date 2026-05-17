@@ -17,10 +17,10 @@ export function SocialLinks() {
       color: 'var(--color-neon-purple)',
     },
     {
-      label: 'GitHub',
-      value: 'github.com/puneet-tanwar',
-      href: CONTACT_CONFIG.github,
-      color: 'var(--color-text-secondary)',
+      label: 'Phone',
+      value: `+91 ${CONTACT_CONFIG.phone.slice(0, 5)} ${CONTACT_CONFIG.phone.slice(5)}`,
+      href: `tel:+91${CONTACT_CONFIG.phone}`,
+      color: 'var(--color-neon-cyan)',
     },
   ]
 

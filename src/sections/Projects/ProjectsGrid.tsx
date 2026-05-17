@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import { type ReactNode, useCallback } from 'react'
 import { portfolioData } from '../../data/portfolio'
 import { ProjectCard } from './ProjectCard'
 import { NGATCard } from './NGATCard'
@@ -32,6 +32,10 @@ export function ProjectsGrid({ children, onProjectClick }: ProjectsGridProps) {
 
   const ngatProject = projects[0]
 
+  const handleNgatClick = useCallback(() => onProjectClick(ngatProject), [onProjectClick, ngatProject])
+  const handleProj1Click = useCallback(() => onProjectClick(projects[1] as Project), [onProjectClick, projects])
+  const handleProj2Click = useCallback(() => onProjectClick(projects[2] as Project), [onProjectClick, projects])
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-[16px] md:gap-[24px]">
       <div
@@ -52,7 +56,7 @@ export function ProjectsGrid({ children, onProjectClick }: ProjectsGridProps) {
           abbreviation={ngatProject.abbreviation}
           projectType={ngatProject.projectType}
           features={ngatProject.features ?? []}
-          onViewDetails={() => onProjectClick(ngatProject)}
+          onViewDetails={handleNgatClick}
         />
       </div>
       <div
@@ -60,14 +64,14 @@ export function ProjectsGrid({ children, onProjectClick }: ProjectsGridProps) {
         className="md:row-start-1 md:col-start-2"
         style={{ alignSelf: 'start' }}
       >
-        <ProjectCard {...mapProjectToProps(projects[1], false)} onViewDetails={() => onProjectClick(projects[1] as Project)} />
+        <ProjectCard {...mapProjectToProps(projects[1], false)} onViewDetails={handleProj1Click} />
       </div>
       <div
         data-projects="card-2"
         className="md:row-start-2 md:col-start-2"
         style={{ alignSelf: 'start' }}
       >
-        <ProjectCard {...mapProjectToProps(projects[2], false)} onViewDetails={() => onProjectClick(projects[2] as Project)} />
+        <ProjectCard {...mapProjectToProps(projects[2], false)} onViewDetails={handleProj2Click} />
       </div>
       {children}
     </div>

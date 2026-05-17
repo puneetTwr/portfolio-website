@@ -31,27 +31,36 @@ function App() {
       <Overlay>
         <ScrollProgressBar />
         <NavDots />
-        <Suspense fallback={null}>
-          <SectionWrapper id="hero" data-section="hero">
+
+        <SectionWrapper id="hero" data-section="hero">
+          <Suspense fallback={null}>
             <Hero />
-          </SectionWrapper>
+          </Suspense>
+        </SectionWrapper>
 
-          <SectionWrapper id="projects" data-section="projects">
+        <SectionWrapper id="projects" data-section="projects">
+          <Suspense fallback={null}>
             <Projects />
-          </SectionWrapper>
+          </Suspense>
+        </SectionWrapper>
 
-          <SectionWrapper id="skills" data-section="skills">
+        <SectionWrapper id="skills" data-section="skills">
+          <Suspense fallback={null}>
             <Skills />
-          </SectionWrapper>
+          </Suspense>
+        </SectionWrapper>
 
-          <SectionWrapper id="about" data-section="about">
+        <SectionWrapper id="about" data-section="about">
+          <Suspense fallback={null}>
             <About />
-          </SectionWrapper>
+          </Suspense>
+        </SectionWrapper>
 
-          <SectionWrapper id="contact" data-section="contact">
+        <SectionWrapper id="contact" data-section="contact">
+          <Suspense fallback={null}>
             <Contact />
-          </SectionWrapper>
-        </Suspense>
+          </Suspense>
+        </SectionWrapper>
       </Overlay>
     </div>
   )

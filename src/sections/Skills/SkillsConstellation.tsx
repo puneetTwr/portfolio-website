@@ -73,8 +73,8 @@ export function SkillsConstellation({
           index={index}
           isHovered={hoveredSkill === skill.name}
           isDimmed={hoveredSkill !== null && !highlightedNodes.has(skill.name)}
-          onMouseEnter={() => onNodeEnter(skill.name)}
-          onMouseLeave={onNodeLeave}
+          onNodeEnter={onNodeEnter}
+          onNodeLeave={onNodeLeave}
         />
       ))}
     </div>

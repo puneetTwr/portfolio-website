@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import type { ExperienceHighlight } from '../../types'
 import { PlatformHighlight } from './PlatformHighlight'
 
@@ -13,7 +13,7 @@ interface TimelineNodeProps {
   nodeIndex: number
 }
 
-export function TimelineNode({
+export const TimelineNode = memo(function TimelineNode({
   company,
   role,
   duration,
@@ -179,4 +179,4 @@ export function TimelineNode({
       </div>
     </div>
   )
-}
+})

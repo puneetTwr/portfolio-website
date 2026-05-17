@@ -1,3 +1,4 @@
+import { memo, useCallback } from 'react'
 import { getNodeSize, getNodeColor } from '../../utils/constellation'
 import { useDeviceCapability } from '../../hooks'
 
@@ -10,11 +11,11 @@ interface SkillNodeProps {
   index: number
   isHovered: boolean
   isDimmed: boolean
-  onMouseEnter: () => void
-  onMouseLeave: () => void
+  onNodeEnter: (name: string) => void
+  onNodeLeave: () => void
 }
 
-export function SkillNode({
+export const SkillNode = memo(function SkillNode({
   name,
   category,
   level,
@@ -23,10 +24,11 @@ export function SkillNode({
   index,
   isHovered,
   isDimmed,
-  onMouseEnter,
-  onMouseLeave,
+  onNodeEnter,
+  onNodeLeave,
 }: SkillNodeProps) {
   const { isMobile } = useDeviceCapability()
+  const handleEnter = useCallback(() => onNodeEnter(name), [onNodeEnter, name])
   const size = getNodeSize(level)
   const color = getNodeColor(category)
   const dotSize = size * 0.2
@@ -53,8 +55,8 @@ export function SkillNode({
   return (
     <div
       data-skill-node={name}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
+      onMouseEnter={handleEnter}
+      onMouseLeave={onNodeLeave}
       style={{
         position: 'absolute',
         left: `${x}%`,
@@ -192,4 +194,4 @@ export function SkillNode({
       )}
     </div>
   )
-}
+})

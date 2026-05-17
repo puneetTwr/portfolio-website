@@ -1,10 +1,12 @@
+import { memo } from 'react'
+
 interface TechBadgeProps {
   label: string
   accentColor: string
   size?: 'small' | 'default'
 }
 
-export function TechBadge({ label, accentColor, size = 'default' }: TechBadgeProps) {
+export const TechBadge = memo(function TechBadge({ label, accentColor, size = 'default' }: TechBadgeProps) {
   return (
     <span
       style={{
@@ -23,4 +25,4 @@ export function TechBadge({ label, accentColor, size = 'default' }: TechBadgePro
       {label}
     </span>
   )
-}
+})

@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useCountUp } from '../../hooks'
 
 interface MetricItemProps {
@@ -10,7 +11,7 @@ interface MetricItemProps {
   isLast?: boolean
 }
 
-export function MetricItem({
+export const MetricItem = memo(function MetricItem({
   value,
   label,
   description,
@@ -110,4 +111,4 @@ export function MetricItem({
       )}
     </div>
   )
-}
+})
